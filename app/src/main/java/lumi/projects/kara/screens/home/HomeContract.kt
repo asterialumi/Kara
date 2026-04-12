@@ -1,11 +1,13 @@
 package lumi.projects.kara.screens.home
 
-class HomeContract {
+interface HomeContract {
     interface View {
-        fun logout()
+        fun navigateToLoginScreen()
     }
 
     interface Presenter {
-
+        fun onLogoutButtonClicked()
+        fun startTimer()
+        fun endTimer()
     }
 }

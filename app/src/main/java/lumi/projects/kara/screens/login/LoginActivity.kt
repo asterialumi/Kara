@@ -17,7 +17,6 @@ import lumi.projects.kara.screens.home.HomeActivity
 import lumi.projects.kara.screens.register.RegisterActivity
 
 class LoginActivity : Activity(), LoginContract.View {
-
     private lateinit var presenter: LoginPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,17 +45,9 @@ class LoginActivity : Activity(), LoginContract.View {
         Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show()
     }
 
-    override fun getRegisteredUser(): UserInfo? {
-        val username = intent.getStringExtra("registeredUsername")
-        val password = intent.getStringExtra("registeredPassword")
-        if(!username.isNullOrEmpty() && !password.isNullOrEmpty()) return UserInfo(username, password)
-        return null
-    }
-
-    override fun navigateToHomeScreen(user: UserInfo) {
+    override fun navigateToHomeScreen(username: String) {
         val intent = Intent(this, HomeActivity::class.java)
-        intent.putExtra("username", user.username)
-        intent.putExtra("password", user.password)
+        intent.putExtra("username", username)
         startActivity(intent)
     }
 }

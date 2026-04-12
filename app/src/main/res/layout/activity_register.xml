@@ -57,10 +57,11 @@
         android:layout_marginBottom="36dp"/>
 
     <Button
-        android:id="@+id/buttonSubmit"
+        android:id="@+id/buttonRegister"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="Submit"
+        android:text="Register"
+        android:textColor="@color/white"
         android:backgroundTint="#41431B"/>
 
 </LinearLayout>

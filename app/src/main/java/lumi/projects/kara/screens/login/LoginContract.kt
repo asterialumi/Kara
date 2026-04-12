@@ -2,11 +2,10 @@ package lumi.projects.kara.screens.login;
 
 import lumi.projects.kara.data.models.UserInfo
 
-class LoginContract {
+interface LoginContract {
     interface View {
         fun showError(errorText: String)
-        fun navigateToHomeScreen(user: UserInfo)
-        fun getRegisteredUser(): UserInfo?
+        fun navigateToHomeScreen(username: String)
     }
 
     interface Presenter {
