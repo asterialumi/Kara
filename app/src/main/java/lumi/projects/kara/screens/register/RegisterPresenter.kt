@@ -19,5 +19,4 @@ class RegisterPresenter(private val view: RegisterContract.View): RegisterContra
         if(success) view.navigateToLoginScreen()
         else view.showError("Username already exists!")
     }
-
 }

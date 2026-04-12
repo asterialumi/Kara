@@ -25,6 +25,7 @@
         <activity
             android:name=".screens.register.RegisterActivity"
             android:exported="false" />
+
         <activity
             android:name=".screens.home.HomeActivity"
             android:exported="false" />
