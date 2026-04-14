@@ -1,14 +1,16 @@
 package lumi.projects.kara.screens.login;
 
-import lumi.projects.kara.data.models.UserInfo
-
 interface LoginContract {
+
     interface View {
-        fun showError(errorText: String)
-        fun navigateToHomeScreen(username: String)
+        fun showSuccessMessage()
+        fun showInvalidCredentialMessage()
+        fun showEmptyMessage()
+        fun navigateToHomeScreen()
+        fun showGenericErrorMessage()
     }
 
     interface Presenter {
-        fun onLoginClicked(username: String, password: String)
+        fun login(username: String, password: String)
     }
 }

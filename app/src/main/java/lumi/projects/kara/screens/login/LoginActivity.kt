@@ -1,20 +1,11 @@
 package lumi.projects.kara.screens.login
 
+import LoginPresenter
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import lumi.projects.kara.R
-import lumi.projects.kara.data.models.UserInfo
 import lumi.projects.kara.screens.home.HomeActivity
-import lumi.projects.kara.screens.register.RegisterActivity
+import lumi.projects.kara.utils.*
 
 class LoginActivity : Activity(), LoginContract.View {
     private lateinit var presenter: LoginPresenter
@@ -22,32 +13,32 @@ class LoginActivity : Activity(), LoginContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        presenter = LoginPresenter(this)
+        presenter = LoginPresenter(this, LoginModel())
 
-        val edittextUsername = findViewById<EditText>(R.id.edittextUsername)
-        val edittextPassword = findViewById<EditText>(R.id.edittextPassword)
-        val textviewRegister = findViewById<TextView>(R.id.textviewRegister)
-        val buttonLogin = findViewById<Button>(R.id.buttonLogin)
-
-        textviewRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
-
-        buttonLogin.setOnClickListener {
-            val username = edittextUsername.text.toString()
-            val password = edittextPassword.text.toString()
-            presenter.onLoginClicked(username, password)
+        getButtonView(R.id.buttonLogin).setOnClickListener {
+            val username = getEditTextValue(R.id.edittextUsername)
+            val password = getEditTextValue(R.id.edittextPassword)
+            presenter.login(username, password)
         }
     }
 
-    override fun showError(errorText: String) {
-        Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show()
+    override fun showSuccessMessage() {
+        toast("Login successful!")
     }
 
-    override fun navigateToHomeScreen(username: String) {
-        val intent = Intent(this, HomeActivity::class.java)
-        intent.putExtra("username", username)
-        startActivity(intent)
+    override fun showInvalidCredentialMessage() {
+        toast("Invalid credentials!")
+    }
+
+    override fun showEmptyMessage() {
+        toast("Fields cannot be empty!")
+    }
+
+    override fun navigateToHomeScreen() {
+        start(HomeActivity::class.java)
+    }
+
+    override fun showGenericErrorMessage() {
+        toast("Unexpected error occurred")
     }
 }

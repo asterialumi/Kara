@@ -1,21 +1,29 @@
-package lumi.projects.kara.screens.login
+import android.app.Activity
+import lumi.projects.kara.data.models.UserInfo
+import lumi.projects.kara.screens.login.LoginContract
+import lumi.projects.kara.screens.login.LoginModel
+import lumi.projects.kara.utils.app
 
-import lumi.projects.kara.data.repositories.UserRepository
+class LoginPresenter(
+    private val view: LoginContract.View,
+    private val loginModel: LoginModel
+) : LoginContract.Presenter {
 
-class LoginPresenter(private val view: LoginContract.View) : LoginContract.Presenter {
-    override fun onLoginClicked(username: String, password: String) {
-        if (username.isEmpty() || password.isEmpty()) {
-            view.showError("Fields cannot be empty!")
-            return
-        }
+    private val app = (view as Activity).app()
 
-        val user = UserRepository.validateUser(username, password)
-        if (user != null) {
-            //load entries from a separate repository ("entry repository") of the associated user
-            view.navigateToHomeScreen(username)
+    override fun login(username: String, password: String) {
+        println(loginModel.login(username, password))
+        if (username.isNotEmpty() && password.isNotEmpty()) {
+            println(loginModel.login(username, password))
+            if (loginModel.login(username, password)) {
+                app.setUserInfo(UserInfo(username, password))
+                view.showSuccessMessage()
+                view.navigateToHomeScreen()
+            } else {
+                view.showInvalidCredentialMessage()
+            }
         } else {
-            view.showError("Invalid credentials!")
+            view.showEmptyMessage()
         }
     }
-
 }
