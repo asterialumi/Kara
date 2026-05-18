@@ -10,7 +10,7 @@ import lumi.projects.kara.app.KaraApp
 fun Activity.getEditTextValue(id: Int) =
     findViewById<EditText>(id).text.toString()
 
-fun Activity.getButtonView(id: Int) =
+fun Activity.getButtonView(id: Int): Button =
     findViewById<Button>(id)
 
 fun Activity.toast(msg: String) {

@@ -1,4 +1,4 @@
-package lumi.projects.kara.data.models
+package lumi.projects.kara.data
 
 data class UserInfo(
     var username: String = "",

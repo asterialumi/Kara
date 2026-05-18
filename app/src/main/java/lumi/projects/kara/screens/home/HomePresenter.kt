@@ -1,5 +1,8 @@
 package lumi.projects.kara.screens.home
 
+import android.app.Activity
+import lumi.projects.kara.R
+
 class HomePresenter(private val view: HomeContract.View): HomeContract.Presenter {
     override fun onLogoutButtonClicked() {
         //reset state (unloads all time entries)

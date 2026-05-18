@@ -6,6 +6,6 @@ class LoginModel {
 
     fun login(username: String, password: String): Boolean {
         return username.equals(this.username, false)
-                && password.equals(this.password, false)
+            && password.equals(this.password, false)
     }
 }

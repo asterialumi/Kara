@@ -1,7 +1,6 @@
 package lumi.projects.kara.screens.register
 
-import lumi.projects.kara.data.models.UserInfo
-import lumi.projects.kara.data.repositories.UserRepository
+import lumi.projects.kara.data.UserRepository
 
 class RegisterPresenter(private val view: RegisterContract.View): RegisterContract.Presenter {
     override fun onRegisterButtonClicked(username: String, password: String, confirm: String) {
