@@ -21,6 +21,7 @@ class HomePresenter(private val view: HomeContract.View) : HomeContract.Presente
     }
 
     override fun onLogoutClicked() {
+        DataRepository.logout()
         view.navigateToLogin()
     }
 }

@@ -1,27 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:padding="32dp"
+    android:padding="24dp"
     android:background="@color/kara_background">
 
     <!-- Project Selector -->
-    <TextView
-        style="@style/TextAppearance.Kara.Subheader"
-        android:text="Currently Tracking for:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <Spinner
         android:id="@+id/spinner_project"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="56dp"
         android:background="@drawable/bg_input_field"
-        android:paddingStart="12dp" />
+        android:paddingStart="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- Description Input -->
+    <EditText
+        android:id="@+id/edittext_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="+ Add Description"
+        android:background="@null"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        style="@style/TextAppearance.Kara.Body" />
 
     <!-- The Big Stopwatch -->
     <TextView
@@ -31,42 +35,46 @@
         android:text="00:00:00"
         android:fontFamily="@font/montserrat_bold"
         android:textColor="@color/kara_primary"
-        android:textSize="64sp"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="80dp" />
+        android:textSize="72sp"
+        android:layout_weight="1"
+        android:gravity="center" />
 
     <!-- Control Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginBottom="40dp">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_start_pause"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:text="START"
-            android:textColor="@color/text_on_dark"
-            android:background="@drawable/bg_button"
-            app:backgroundTint="@null"
-            style="@style/TextAppearance.Kara.Header" />
-
-        <Space
-            android:layout_width="24dp"
-            android:layout_height="wrap_content" />
-
+        <!-- STOP BUTTON -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_stop"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:text="STOP"
+            android:text="■"
+            android:textSize="24sp"
             android:textColor="@color/kara_primary"
             android:background="@drawable/bg_input_field"
             app:backgroundTint="@null"
-            android:visibility="gone"
-            style="@style/TextAppearance.Kara.Body" />
+            android:visibility="gone" />
+
+        <Space
+            android:id="@+id/btn_space"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <!-- START / PAUSE BUTTON -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_start_pause"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="▶"
+            android:textSize="32sp"
+            android:textColor="@color/text_on_dark"
+            android:background="@drawable/bg_button_circle"
+            app:backgroundTint="@null" />
 
     </LinearLayout>
-
 </LinearLayout>
