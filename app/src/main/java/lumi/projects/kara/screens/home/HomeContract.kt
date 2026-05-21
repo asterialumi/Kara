@@ -2,12 +2,15 @@ package lumi.projects.kara.screens.home
 
 interface HomeContract {
     interface View {
-        fun navigateToLoginScreen()
+        fun displayProjects(projects: List<String>)
+        fun displayTags(tags: List<String>)
+        fun navigateToLogin()
     }
 
     interface Presenter {
-        fun onLogoutButtonClicked()
-        fun startTimer()
-        fun endTimer()
+        fun start() // Called when fragment opens
+        fun onAddProjectClicked(name: String)
+        fun onAddTagClicked(name: String)
+        fun onLogoutClicked()
     }
 }

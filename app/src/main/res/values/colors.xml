@@ -2,4 +2,19 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Brand Colors -->
+    <color name="kara_primary">#41431b</color> <!-- The Olive Green (Logo color) -->
+    <color name="kara_primary_dark">#1d300f</color> <!-- The Darkest Green -->
+    <color name="kara_accent">#6b8b7b</color> <!-- The Muted Blue-Green -->
+
+    <!-- Backgrounds and Surfaces -->
+    <color name="kara_background">#f8f3e1</color> <!-- The Off-white -->
+    <color name="kara_surface">#e3dbbb</color> <!-- The Beige/Cream (For Cards) -->
+    <color name="kara_input_bg">#aeb784</color> <!-- The Sage Green (For selection/tags) -->
+
+    <!-- Text Colors -->
+    <color name="text_on_dark">#FFFFFF</color>
+    <color name="text_on_light">#41431B</color>
+    <color name="hint_color">#5E6344</color> <!-- Slightly darker sage for hints -->
 </resources>

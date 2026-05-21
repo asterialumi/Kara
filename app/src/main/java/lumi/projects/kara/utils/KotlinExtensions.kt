@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import lumi.projects.kara.app.KaraApp
 
@@ -12,6 +13,9 @@ fun Activity.getEditTextValue(id: Int) =
 
 fun Activity.getButtonView(id: Int): Button =
     findViewById<Button>(id)
+
+fun Activity.getTextView(id: Int): TextView =
+    findViewById<TextView>(id)
 
 fun Activity.toast(msg: String) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()

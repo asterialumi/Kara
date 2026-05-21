@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/kara_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- 1. THE CLOCK -->
+        <TextClock
+            android:id="@+id/dashboard_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:format12Hour="hh:mm a"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/kara_primary"
+            android:textSize="48sp" />
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:format12Hour="EEEE, MMMM dd"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/kara_accent"
+            android:textSize="16sp"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- 2. PROJECTS SECTION -->
+        <TextView
+            style="@style/TextAppearance.Kara.Subheader"
+            android:text="Your Projects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Placeholder for Project List -->
+        <LinearLayout
+            android:id="@+id/project_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- 3. TAGS SECTION -->
+        <TextView
+            style="@style/TextAppearance.Kara.Subheader"
+            android:text="Common Tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/tag_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textColor="@color/text_on_dark"
+            android:background="@drawable/bg_button"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            style="@style/TextAppearance.Kara.Body"/>
+
+    </LinearLayout>
+</ScrollView>

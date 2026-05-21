@@ -1,5 +1,5 @@
 import android.app.Activity
-import lumi.projects.kara.data.UserInfo
+import lumi.projects.kara.data.model.UserInfo
 import lumi.projects.kara.screens.login.LoginContract
 import lumi.projects.kara.screens.login.LoginModel
 import lumi.projects.kara.utils.app

@@ -1,4 +1,6 @@
-package lumi.projects.kara.data
+package lumi.projects.kara.data.repository
+
+import lumi.projects.kara.data.model.UserInfo
 
 object UserRepository {
     private val users = mutableListOf<UserInfo>()

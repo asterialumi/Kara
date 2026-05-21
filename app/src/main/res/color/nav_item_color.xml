@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Active Tab Color -->
+    <item android:color="@color/kara_primary" android:state_checked="true" />
+    <!-- Inactive Tab Color -->
+    <item android:color="#8041431B" android:state_checked="false" />
+</selector>

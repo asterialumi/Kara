@@ -5,5 +5,27 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <!-- Header Style (Montserrat) -->
+    <style name="TextAppearance.Kara.Header" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="android:textColor">@color/kara_primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">70sp</item>
+    </style>
+
+    <!-- Subheader Style (Inter) -->
+    <style name="TextAppearance.Kara.Subheader" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/inter_medium</item>
+        <item name="android:textColor">@color/kara_primary</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <!-- Body Style (Poppins) -->
+    <style name="TextAppearance.Kara.Body" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:textColor">@color/text_on_light</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="Theme.Kara" parent="Base.Theme.Kara" />
 </resources>

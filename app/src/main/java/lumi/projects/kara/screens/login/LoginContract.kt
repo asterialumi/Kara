@@ -7,6 +7,7 @@ interface LoginContract {
         fun showInvalidCredentialMessage()
         fun showEmptyMessage()
         fun navigateToHomeScreen()
+        fun navigateToRegisterScreen()
         fun showGenericErrorMessage()
     }
 

@@ -1,7 +1,7 @@
 package lumi.projects.kara.app
 
 import android.app.Application
-import lumi.projects.kara.data.UserInfo
+import lumi.projects.kara.data.model.UserInfo
 
 class KaraApp: Application() {
 

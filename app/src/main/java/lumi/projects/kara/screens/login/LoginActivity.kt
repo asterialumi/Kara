@@ -4,7 +4,8 @@ import LoginPresenter
 import android.app.Activity
 import android.os.Bundle
 import lumi.projects.kara.R
-import lumi.projects.kara.screens.home.HomeActivity
+import lumi.projects.kara.screens.main.MainActivity
+import lumi.projects.kara.screens.register.RegisterActivity
 import lumi.projects.kara.utils.*
 
 class LoginActivity : Activity(), LoginContract.View {
@@ -19,6 +20,10 @@ class LoginActivity : Activity(), LoginContract.View {
             val username = getEditTextValue(R.id.edittextUsername)
             val password = getEditTextValue(R.id.edittextPassword)
             presenter.login(username, password)
+        }
+
+        getTextView(R.id.textviewRegister).setOnClickListener {
+            navigateToRegisterScreen()
         }
     }
 
@@ -35,7 +40,11 @@ class LoginActivity : Activity(), LoginContract.View {
     }
 
     override fun navigateToHomeScreen() {
-        start(HomeActivity::class.java)
+        start(MainActivity::class.java)
+    }
+
+    override fun navigateToRegisterScreen() {
+        start(RegisterActivity::class.java)
     }
 
     override fun showGenericErrorMessage() {
