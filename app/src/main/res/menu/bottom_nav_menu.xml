@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/nav_home"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Home" />
+    <item
         android:id="@+id/nav_timer"
         android:icon="@android:drawable/ic_menu_recent_history"
         android:title="Timer" />
@@ -12,8 +16,4 @@
         android:id="@+id/nav_stats"
         android:icon="@android:drawable/ic_menu_compass"
         android:title="Stats" />
-    <item
-        android:id="@+id/nav_settings"
-        android:icon="@android:drawable/ic_menu_manage"
-        android:title="Settings" />
 </menu>

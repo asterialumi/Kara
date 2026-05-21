@@ -1,12 +1,36 @@
 package lumi.projects.kara.data.repository
 
+import android.content.Context
+import lumi.projects.kara.data.local.SerializeManager
+import lumi.projects.kara.data.model.TimeEntry
+
 object DataRepository {
-    val projects = mutableListOf<String>("Work", "Study", "Exercise") // Dummy data
-    val tags = mutableListOf<String>("Urgent", "Deep Work", "Relax")
+    private lateinit var prefs: SerializeManager
 
-    // We will add TimeEntries here later today
-    val entries = mutableListOf<Any>()
+    var projects = mutableListOf<String>()
+    var tags = mutableListOf<String>()
+    var timeEntries = mutableListOf<TimeEntry>()
 
-    fun addProject(name: String) { projects.add(name) }
-    fun addTag(name: String) { tags.add(name) }
+    // Call this once from your MainActivity or Application class
+    fun init(context: Context) {
+        prefs = SerializeManager(context)
+        projects = prefs.getProjects()
+        tags = prefs.getTags()
+        timeEntries = prefs.getEntries()
+    }
+
+    fun addProject(name: String) {
+        projects.add(name)
+        prefs.saveProjects(projects)
+    }
+
+    fun addTag(name: String) {
+        tags.add(name)
+        prefs.saveTags(tags)
+    }
+
+    fun saveEntry(entry: TimeEntry) {
+        timeEntries.add(entry)
+        prefs.saveEntries(timeEntries)
+    }
 }

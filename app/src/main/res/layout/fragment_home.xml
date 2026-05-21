@@ -32,13 +32,30 @@
             android:layout_marginBottom="32dp"/>
 
         <!-- 2. PROJECTS SECTION -->
-        <TextView
-            style="@style/TextAppearance.Kara.Subheader"
-            android:text="Your Projects"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!-- The Header: Title + Add Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <!-- Placeholder for Project List -->
+            <TextView
+                style="@style/TextAppearance.Kara.Subheader"
+                android:text="Your Projects"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:id="@+id/btn_add_project"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_input_add"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Add Project" />
+        </LinearLayout>
+
+        <!-- THE ACTUAL CONTAINER: This is where code injects the project items -->
         <LinearLayout
             android:id="@+id/project_list_container"
             android:layout_width="match_parent"
@@ -48,12 +65,30 @@
             android:layout_marginBottom="24dp"/>
 
         <!-- 3. TAGS SECTION -->
-        <TextView
-            style="@style/TextAppearance.Kara.Subheader"
-            android:text="Common Tags"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!-- Header for Tags -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
+            <TextView
+                style="@style/TextAppearance.Kara.Subheader"
+                android:text="Common Tags"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:id="@+id/btn_add_tag"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_input_add"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Add Tag" />
+        </LinearLayout>
+
+        <!-- THE ACTUAL CONTAINER FOR TAGS -->
         <LinearLayout
             android:id="@+id/tag_list_container"
             android:layout_width="match_parent"
@@ -61,13 +96,14 @@
             android:orientation="vertical"
             android:layout_marginTop="8dp"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonLogout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Logout"
             android:textColor="@color/text_on_dark"
             android:background="@drawable/bg_button"
+            android:backgroundTint="@null"
             android:layout_marginTop="40dp"
             android:layout_gravity="center"
             style="@style/TextAppearance.Kara.Body"/>

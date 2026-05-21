@@ -17,10 +17,13 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="70dp"
         android:background="@color/kara_surface"
         app:itemIconTint="@color/nav_item_color"
-        app:itemTextColor="@color/kara_primary"
+        app:itemTextColor="@color/nav_item_color"
+        app:itemActiveIndicatorStyle="@null"
+        app:labelVisibilityMode="labeled"
+        app:itemIconSize="26dp"
         app:menu="@menu/bottom_nav_menu"/>
 
 </LinearLayout>

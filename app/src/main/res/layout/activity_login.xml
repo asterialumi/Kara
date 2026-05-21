@@ -60,7 +60,7 @@
             android:layout_marginBottom="32dp"
             style="@style/TextAppearance.Kara.Body"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonLogin"
             android:layout_width="match_parent"
             android:layout_height="56dp"
