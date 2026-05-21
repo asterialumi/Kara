@@ -1,29 +1,20 @@
-import android.app.Activity
-import lumi.projects.kara.data.model.UserInfo
-import lumi.projects.kara.screens.login.LoginContract
-import lumi.projects.kara.screens.login.LoginModel
-import lumi.projects.kara.utils.app
+package lumi.projects.kara.screens.login
 
-class LoginPresenter(
-    private val view: LoginContract.View,
-    private val loginModel: LoginModel
-) : LoginContract.Presenter {
+import lumi.projects.kara.data.repository.DataRepository
 
-    private val app = (view as Activity).app()
+class LoginPresenter(private val view: LoginContract.View) : LoginContract.Presenter {
 
     override fun login(username: String, password: String) {
-        println(loginModel.login(username, password))
-        if (username.isNotEmpty() && password.isNotEmpty()) {
-            println(loginModel.login(username, password))
-            if (loginModel.login(username, password)) {
-                app.setUserInfo(UserInfo(username, password))
-                view.showSuccessMessage()
-                view.navigateToHomeScreen()
-            } else {
-                view.showInvalidCredentialMessage()
-            }
-        } else {
+        if (username.isEmpty() || password.isEmpty()) {
             view.showEmptyMessage()
+            return
+        }
+
+        if (DataRepository.login(username, password)) {
+            view.showSuccessMessage()
+            view.navigateToHomeScreen()
+        } else {
+            view.showInvalidCredentialMessage()
         }
     }
 }

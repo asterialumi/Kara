@@ -1,38 +1,37 @@
 package lumi.projects.kara.screens.register
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity // Use this instead of Activity
 import lumi.projects.kara.R
 import lumi.projects.kara.screens.login.LoginActivity
 
-class RegisterActivity : Activity(), RegisterContract.View {
+class RegisterActivity : AppCompatActivity(), RegisterContract.View {
+    //we used AppCompatActivity so we can use finish()
+    //finish() ensures the user cannot press back to go back to this screen
+    //essentially removing this from history when its done
+
     private lateinit var presenter: RegisterPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
         presenter = RegisterPresenter(this)
 
-        val edittextNewUsername = findViewById<EditText>(R.id.edittextNewUsername)
-        val edittextNewPassword = findViewById<EditText>(R.id.edittextNewPassword)
-        val edittextConfirmPassword = findViewById<EditText>(R.id.edittextConfirmPassword)
-        val textviewReturnLogin = findViewById<TextView>(R.id.textviewReturnLogin)
-        val buttonRegister = findViewById<Button>(R.id.buttonRegister)
+        val btnRegister = findViewById<Button>(R.id.buttonRegister)
+        val tvReturn = findViewById<TextView>(R.id.textviewReturnLogin)
 
-        textviewReturnLogin.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+        btnRegister.setOnClickListener {
+            val username = findViewById<EditText>(R.id.edittextNewUsername).text.toString()
+            val password = findViewById<EditText>(R.id.edittextNewPassword).text.toString()
+            val confirm = findViewById<EditText>(R.id.edittextConfirmPassword).text.toString()
+            presenter.onRegisterButtonClicked(username, password, confirm)
         }
 
-        buttonRegister.setOnClickListener {
-            val username = edittextNewUsername.text.toString()
-            val password = edittextNewPassword.text.toString()
-            val confirm = edittextConfirmPassword.text.toString()
-            presenter.onRegisterButtonClicked(username, password, confirm)
+        tvReturn.setOnClickListener {
+            navigateToLoginScreen()
         }
     }
 
@@ -43,5 +42,6 @@ class RegisterActivity : Activity(), RegisterContract.View {
     override fun navigateToLoginScreen() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
+        finish() // Closes Register so it's removed from the history
     }
 }

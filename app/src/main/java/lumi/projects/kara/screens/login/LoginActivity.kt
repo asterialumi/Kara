@@ -1,6 +1,5 @@
 package lumi.projects.kara.screens.login
 
-import LoginPresenter
 import android.app.Activity
 import android.os.Bundle
 import lumi.projects.kara.R
@@ -14,7 +13,7 @@ class LoginActivity : Activity(), LoginContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        presenter = LoginPresenter(this, LoginModel())
+        presenter = LoginPresenter(this)
 
         getButtonView(R.id.buttonLogin).setOnClickListener {
             val username = getEditTextValue(R.id.edittextUsername)

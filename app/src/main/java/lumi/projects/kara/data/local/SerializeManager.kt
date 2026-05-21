@@ -5,11 +5,13 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import lumi.projects.kara.data.model.TimeEntry
+import lumi.projects.kara.data.model.UserInfo
 
 class SerializeManager(context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences("kara_prefs", Context.MODE_PRIVATE)
     private val gson = Gson()
 
+    //FOR PROJECTS
     fun saveProjects(projects: List<String>) {
         prefs.edit().putString("projects", gson.toJson(projects)).apply()
     }
@@ -19,6 +21,8 @@ class SerializeManager(context: Context) {
         val type = object : TypeToken<MutableList<String>>() {}.type
         return gson.fromJson(json, type)
     }
+
+    //FOR TAGS
 
     fun saveTags(tags: List<String>) {
         prefs.edit().putString("tags", gson.toJson(tags)).apply()
@@ -30,6 +34,8 @@ class SerializeManager(context: Context) {
         return gson.fromJson(json, type)
     }
 
+    //FOR ENTRIES
+
     fun saveEntries(entries: List<TimeEntry>) {
         prefs.edit().putString("entries", gson.toJson(entries)).apply()
     }
@@ -37,6 +43,26 @@ class SerializeManager(context: Context) {
     fun getEntries(): MutableList<TimeEntry> {
         val json = prefs.getString("entries", null) ?: return mutableListOf()
         val type = object : TypeToken<MutableList<TimeEntry>>() {}.type
+        return gson.fromJson(json, type)
+    }
+
+    //FOR USERS
+
+    fun saveSession(username: String?) {
+        prefs.edit().putString("current_user", username).apply()
+    }
+
+    fun getCurrentUser(): String? {
+        return prefs.getString("current_user", null)
+    }
+
+    fun saveUsers(users: List<UserInfo>) {
+        prefs.edit().putString("users", gson.toJson(users)).apply()
+    }
+
+    fun getUsers(): MutableList<UserInfo> {
+        val json = prefs.getString("users", null) ?: return mutableListOf()
+        val type = object : TypeToken<MutableList<UserInfo>>() {}.type
         return gson.fromJson(json, type)
     }
 }

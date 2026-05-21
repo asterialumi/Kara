@@ -1,21 +1,28 @@
 package lumi.projects.kara.screens.register
 
-import lumi.projects.kara.data.repository.UserRepository
+import lumi.projects.kara.data.model.UserInfo
+import lumi.projects.kara.data.repository.DataRepository
 
-class RegisterPresenter(private val view: RegisterContract.View): RegisterContract.Presenter {
+class RegisterPresenter(private val view: RegisterContract.View) : RegisterContract.Presenter {
+
     override fun onRegisterButtonClicked(username: String, password: String, confirm: String) {
-        if(username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
             view.showError("Fields cannot be empty!")
             return
         }
 
-        if(password != confirm) {
+        if (password != confirm) {
             view.showError("Passwords don't match!")
             return
         }
 
-        val success = UserRepository.registerUser(username, password)
-        if(success) view.navigateToLoginScreen()
-        else view.showError("Username already exists!")
+        // Call our unified repository
+        val success = DataRepository.register(UserInfo(username, password))
+
+        if (success) {
+            view.navigateToLoginScreen()
+        } else {
+            view.showError("Username already exists!")
+        }
     }
 }
