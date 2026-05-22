@@ -12,9 +12,9 @@ interface TimerContract {
     }
 
     interface Presenter {
-        fun start() // Called when Fragment opens
+        fun start()
         fun onStartButtonClicked()
         fun onStopButtonClicked()
-        fun onCleared() // To stop handler when fragment is destroyed
+        fun onCleared()
     }
 }

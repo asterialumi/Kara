@@ -8,7 +8,7 @@ interface HomeContract {
     }
 
     interface Presenter {
-        fun start() // Called when fragment opens
+        fun start()
         fun onAddProjectClicked(name: String)
         fun onAddTagClicked(name: String)
         fun onLogoutClicked()

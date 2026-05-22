@@ -20,7 +20,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
         super.onViewCreated(view, savedInstanceState)
         presenter = HomePresenter(this)
 
-        // UI Setup
+
         val btnLogout = view.findViewById<Button>(R.id.buttonLogout)
         btnLogout.setOnClickListener { presenter.onLogoutClicked() }
 
@@ -38,7 +38,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
 
     override fun displayProjects(projects: List<String>) {
         val container = view?.findViewById<LinearLayout>(R.id.project_list_container)
-        container?.removeAllViews() // Clear old list
+        container?.removeAllViews()
 
         for (projectName in projects) {
             val textView = TextView(requireContext())
@@ -82,7 +82,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
         builder.setPositiveButton("Add") { _, _ ->
             val name = input.text.toString()
             if (name.isNotEmpty()) {
-                presenter.onAddProjectClicked(name) // Presenter tells Repo to save
+                presenter.onAddProjectClicked(name)
             }
         }
         builder.show()

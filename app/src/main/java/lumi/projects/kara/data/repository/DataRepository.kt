@@ -8,38 +8,49 @@ import lumi.projects.kara.data.model.UserInfo
 object DataRepository {
     private lateinit var prefs: SerializeManager
 
+    // Using Mutable Lists as an alternative to a database
     var projects = mutableListOf<String>()
     var tags = mutableListOf<String>()
     var timeEntries = mutableListOf<TimeEntry>()
     private var registeredUsers = mutableListOf<UserInfo>()
 
-    // Call this once from your MainActivity or Application class
+    // Timer States
+    var activeTimerStart: Long = 0L
+    var activeProject: String? = null
+
     fun init(context: Context) {
+        // Initial Preparations
         prefs = SerializeManager(context)
         projects = prefs.getProjects()
         tags = prefs.getTags()
         timeEntries = prefs.getEntries()
         registeredUsers = prefs.getUsers()
+
+        // Persistent Timer
+        activeTimerStart = prefs.getActiveTimerStart()
+        activeProject = prefs.getActiveProject()
     }
 
+
+    // FOR USERS
     fun login(username: String, pword: String): Boolean {
         val user = registeredUsers.find { it.username == username && it.password == pword }
         if (user != null) {
-            prefs.saveSession(username) // Mark as logged in
+            prefs.saveSession(username)
             return true
         }
         return false
     }
 
     fun logout() {
-        prefs.saveSession(null) // Clear session
+        prefs.saveSession(null)
     }
 
     fun isLoggedIn(): Boolean = prefs.getCurrentUser() != null
 
     fun register(user: UserInfo): Boolean {
         if (registeredUsers.any { it.username == user.username }) {
-            return false // Registration failed
+            return false
         }
 
         registeredUsers.add(user)
@@ -47,6 +58,8 @@ object DataRepository {
         return true
     }
 
+
+    // FOR PROJECTS
     fun addProject(name: String) {
         projects.add(name)
         prefs.saveProjects(projects)
@@ -66,18 +79,16 @@ object DataRepository {
         prefs.saveEntries(timeEntries)
     }
 
-    // In DataRepository object
-    var activeTimerStart: Long = 0L // 0 means no timer running
-    var activeProject: String? = null
-
+    // FOR TIMER STATE
     fun startTimer(projectName: String) {
         activeTimerStart = System.currentTimeMillis()
         activeProject = projectName
-        // Optional: save to prefs so it survives reboot
+        prefs.saveActiveTimer(activeTimerStart, activeProject)
     }
 
     fun stopTimer() {
         activeTimerStart = 0L
         activeProject = null
+        prefs.saveActiveTimer(0L, null)
     }
 }

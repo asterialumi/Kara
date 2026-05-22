@@ -8,8 +8,11 @@ import lumi.projects.kara.data.model.TimeEntry
 import lumi.projects.kara.data.model.UserInfo
 
 class SerializeManager(context: Context) {
+    // Setting up SharedPreferences
+    // (a local save-state alternative to a database)
     private val prefs: SharedPreferences = context.getSharedPreferences("kara_prefs", Context.MODE_PRIVATE)
     private val gson = Gson()
+
 
     //FOR PROJECTS
     fun saveProjects(projects: List<String>) {
@@ -23,7 +26,6 @@ class SerializeManager(context: Context) {
     }
 
     //FOR TAGS
-
     fun saveTags(tags: List<String>) {
         prefs.edit().putString("tags", gson.toJson(tags)).apply()
     }
@@ -35,7 +37,6 @@ class SerializeManager(context: Context) {
     }
 
     //FOR ENTRIES
-
     fun saveEntries(entries: List<TimeEntry>) {
         prefs.edit().putString("entries", gson.toJson(entries)).apply()
     }
@@ -46,8 +47,17 @@ class SerializeManager(context: Context) {
         return gson.fromJson(json, type)
     }
 
-    //FOR USERS
+    fun saveActiveTimer(startTime: Long, projectName: String?) {
+        prefs.edit()
+            .putLong("active_timer_start", startTime)
+            .putString("active_project", projectName)
+            .apply()
+    }
 
+    fun getActiveTimerStart(): Long = prefs.getLong("active_timer_start", 0L)
+    fun getActiveProject(): String? = prefs.getString("active_project", null)
+
+    //FOR USERS
     fun saveSession(username: String?) {
         prefs.edit().putString("current_user", username).apply()
     }

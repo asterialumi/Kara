@@ -4,7 +4,7 @@ data class TimeEntry(
     val id: String = java.util.UUID.randomUUID().toString(),
     val projectName: String,
     val description: String,
-    val startTime: Long, // Use System.currentTimeMillis()
+    val startTime: Long,
     val endTime: Long,
     val tags: List<String> = emptyList()
 ) {

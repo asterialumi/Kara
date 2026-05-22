@@ -33,7 +33,6 @@ class TimeEntryAdapter(
         holder.tvDesc.text = entry.description
         holder.tvDuration.text = formatTime(entry.durationMillis)
         holder.tvDate.text = formatDate(entry.startTime)
-
         holder.btnDelete.setOnClickListener { onDelete(entry.id) }
     }
 

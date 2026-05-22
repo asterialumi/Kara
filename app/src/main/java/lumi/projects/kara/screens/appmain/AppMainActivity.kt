@@ -1,4 +1,4 @@
-package lumi.projects.kara.screens.main
+package lumi.projects.kara.screens.appmain
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,11 @@ import lumi.projects.kara.screens.login.LoginActivity
 import lumi.projects.kara.screens.stats.StatsFragment
 import lumi.projects.kara.screens.timer.TimerFragment
 
-class MainActivity : AppCompatActivity() {
+class AppMainActivity : AppCompatActivity() {
+    // we used AppCompatActivity so we can use finish()
+    // finish() ensures the user cannot "back button" to go back to this screen
+    // essentially removing this from history when its done
+    // you'll see other activities/fragments here using AppCompat for the same reason
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,30 +27,33 @@ class MainActivity : AppCompatActivity() {
         if (!DataRepository.isLoggedIn()) {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish() // Important: Closes MainActivity so they can't "back button" into it
+            //removes this from history
+            finish()
             return
         }
 
 
+
         setContentView(R.layout.activity_main)
 
+        // Set-up Views
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         val headerTitle = findViewById<TextView>(R.id.header_title)
         val btnSettings = findViewById<ImageButton>(R.id.header_settings)
 
-        // 1. Load the HomeFragment by default
+        // Load the HomeFragment by default
         if (savedInstanceState == null) {
             loadFragment(HomeFragment())
         }
 
-        // 2. Handle Navigation Clicks
+        // Handle navigation clicks
         bottomNav.setOnItemSelectedListener { item ->
             val (fragment, title) = when (item.itemId) {
                 R.id.nav_home -> HomeFragment() to "Dashboard"
                 R.id.nav_timer -> TimerFragment() to "Tracker"
-                R.id.nav_entries -> EntriesFragment() to "History"
-                R.id.nav_stats -> StatsFragment() to "Analytics"
-                else -> HomeFragment() to "Kara"
+                R.id.nav_entries -> EntriesFragment() to "Entries"
+                R.id.nav_stats -> StatsFragment() to "Profile"
+                else -> HomeFragment() to "Dashboard"
             }
             headerTitle.text = title
             loadFragment(fragment)
@@ -55,8 +62,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadFragment(fragment: Fragment) {
+        //Fade transition between fragments
         supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in_quick, R.anim.fade_out_quick)
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             .replace(R.id.fragment_container, fragment)
             .commit()
     }

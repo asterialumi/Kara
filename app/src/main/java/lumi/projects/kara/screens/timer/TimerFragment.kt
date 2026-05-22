@@ -7,9 +7,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import lumi.projects.kara.R
+import lumi.projects.kara.utils.*
 
 class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
 
@@ -65,7 +65,7 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
     override fun getDescription(): String = etDescription.text.toString()
 
     override fun showSaveSuccess() {
-        Toast.makeText(context, "Entry Saved!", Toast.LENGTH_SHORT).show()
+        toast("Entry Saved!")
     }
 
     override fun setupProjectSpinner(projects: List<String>) {
@@ -75,6 +75,7 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        presenter.onCleared() // Stop the ticking when user leaves the screen
+        // Stop the ticking when user leaves the screen
+        presenter.onCleared()
     }
 }

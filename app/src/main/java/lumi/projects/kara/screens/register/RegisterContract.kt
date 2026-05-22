@@ -2,7 +2,10 @@ package lumi.projects.kara.screens.register
 
 interface RegisterContract {
     interface View {
-        fun showError(errorText: String)
+        fun showSuccessMessage()
+        fun showEmptyFieldsMessage()
+        fun showPasswordMismatchMessage()
+        fun showUsernameExistsMessage()
         fun navigateToLoginScreen()
     }
 

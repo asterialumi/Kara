@@ -7,22 +7,22 @@ class RegisterPresenter(private val view: RegisterContract.View) : RegisterContr
 
     override fun onRegisterButtonClicked(username: String, password: String, confirm: String) {
         if (username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
-            view.showError("Fields cannot be empty!")
+            view.showEmptyFieldsMessage()
             return
         }
 
         if (password != confirm) {
-            view.showError("Passwords don't match!")
+            view.showPasswordMismatchMessage()
             return
         }
 
-        // Call our unified repository
         val success = DataRepository.register(UserInfo(username, password))
 
         if (success) {
+            view.showSuccessMessage()
             view.navigateToLoginScreen()
         } else {
-            view.showError("Username already exists!")
+            view.showUsernameExistsMessage()
         }
     }
 }

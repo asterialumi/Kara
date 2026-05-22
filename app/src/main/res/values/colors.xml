@@ -16,5 +16,5 @@
     <!-- Text Colors -->
     <color name="text_on_dark">#FFFFFF</color>
     <color name="text_on_light">#41431B</color>
-    <color name="hint_color">#5E6344</color> <!-- Slightly darker sage for hints -->
+    <color name="hint_color">#5E6344</color>
 </resources>

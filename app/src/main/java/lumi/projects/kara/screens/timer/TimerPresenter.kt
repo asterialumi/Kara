@@ -10,6 +10,7 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
     private val handler = Handler(Looper.getMainLooper())
     private var isRunning = false
 
+    // The Timer Logic
     private val runnable = object : Runnable {
         override fun run() {
             val elapsed = System.currentTimeMillis() - DataRepository.activeTimerStart
@@ -31,7 +32,9 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
 
     override fun onStartButtonClicked() {
         if (!isRunning) {
-            DataRepository.activeTimerStart = System.currentTimeMillis()
+            val projectName = view.getSelectedProject()
+            DataRepository.startTimer(projectName)
+
             isRunning = true
             view.showRunningState()
             handler.post(runnable)
@@ -50,7 +53,7 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
         )
 
         DataRepository.saveEntry(entry)
-        DataRepository.activeTimerStart = 0L // Reset repo state
+        DataRepository.stopTimer()
 
         isRunning = false
         handler.removeCallbacks(runnable)

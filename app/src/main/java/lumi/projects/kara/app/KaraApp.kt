@@ -7,8 +7,8 @@ import lumi.projects.kara.data.repository.DataRepository
 class KaraApp: Application() {
     override fun onCreate() {
         super.onCreate()
-        // This is where the magic happens.
-        // We initialize the repo here so it's ready for EVERY screen.
+        // Repository is initialized here before any activity starts
+        // If database gets utilized, preparations also go here
         DataRepository.init(this)
     }
 }

@@ -3,14 +3,12 @@ package lumi.projects.kara.screens.register
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity // Use this instead of Activity
+import androidx.appcompat.app.AppCompatActivity
 import lumi.projects.kara.R
 import lumi.projects.kara.screens.login.LoginActivity
+import lumi.projects.kara.utils.toast
 
 class RegisterActivity : AppCompatActivity(), RegisterContract.View {
-    //we used AppCompatActivity so we can use finish()
-    //finish() ensures the user cannot press back to go back to this screen
-    //essentially removing this from history when its done
 
     private lateinit var presenter: RegisterPresenter
 
@@ -18,8 +16,8 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        // Set-up Views and Presenter
         presenter = RegisterPresenter(this)
-
         val btnRegister = findViewById<Button>(R.id.buttonRegister)
         val tvReturn = findViewById<TextView>(R.id.textviewReturnLogin)
 
@@ -35,13 +33,22 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
         }
     }
 
-    override fun showError(errorText: String) {
-        Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show()
+    override fun showSuccessMessage() {
+        toast("Register successful!")
+    }
+    override fun showEmptyFieldsMessage() {
+        toast("Fields are empty!")
+    }
+    override fun showPasswordMismatchMessage() {
+        toast("Passwords don't match!")
+    }
+    override fun showUsernameExistsMessage() {
+        toast("Username already exists!")
     }
 
     override fun navigateToLoginScreen() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
-        finish() // Closes Register so it's removed from the history
+        finish()
     }
 }

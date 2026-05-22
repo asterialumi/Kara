@@ -3,7 +3,7 @@ package lumi.projects.kara.screens.login
 import android.app.Activity
 import android.os.Bundle
 import lumi.projects.kara.R
-import lumi.projects.kara.screens.main.MainActivity
+import lumi.projects.kara.screens.appmain.AppMainActivity
 import lumi.projects.kara.screens.register.RegisterActivity
 import lumi.projects.kara.utils.*
 
@@ -39,7 +39,7 @@ class LoginActivity : Activity(), LoginContract.View {
     }
 
     override fun navigateToHomeScreen() {
-        start(MainActivity::class.java)
+        start(AppMainActivity::class.java)
     }
 
     override fun navigateToRegisterScreen() {
