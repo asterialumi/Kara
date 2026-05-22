@@ -10,7 +10,7 @@ import lumi.projects.kara.data.model.UserInfo
 class SerializeManager(context: Context) {
     // Setting up SharedPreferences
     // (a local save-state alternative to a database)
-    private val prefs: SharedPreferences = context.getSharedPreferences("kara_prefs_fin", Context.MODE_PRIVATE)
+    private val prefs: SharedPreferences = context.getSharedPreferences("kara_prefs_last1", Context.MODE_PRIVATE)
     private val gson = Gson()
 
 

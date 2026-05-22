@@ -8,6 +8,9 @@ class StatsPresenter(private val view: StatsContract.View) : StatsContract.Prese
     override fun start() {
         val entries = DataRepository.timeEntries
 
+        val userName = DataRepository.getLoggedInUser()
+        view.showUserHeader("${userName.uppercase()}'S TIME TRACKED")
+
         // 1. Calculate Total Time
         val totalMillis = entries.sumOf { it.durationMillis }
         view.showTotalTime(totalMillis.toStatFormat())
@@ -23,8 +26,9 @@ class StatsPresenter(private val view: StatsContract.View) : StatsContract.Prese
         // 3. Group by Tags and Sort
         val tagMap = mutableMapOf<String, Long>()
         entries.forEach { entry ->
-            entry.tags.forEach { tag ->
-                tagMap[tag] = (tagMap[tag] ?: 0L) + entry.durationMillis
+            entry.tags?.filter { it.isNotBlank() }?.forEach { tag ->
+                val cleanTag = tag.trim().lowercase()
+                tagMap[cleanTag] = (tagMap[cleanTag] ?: 0L) + entry.durationMillis
             }
         }
         val tagStats = tagMap.map { StatModel(it.key, it.value) }

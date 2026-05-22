@@ -20,6 +20,10 @@ class StatsFragment : Fragment(R.layout.fragment_stats), StatsContract.View {
         getTextView(R.id.tv_total_time).text = formattedTime
     }
 
+    override fun showUserHeader(name: String) {
+        getTextView(R.id.tv_total_tracked).text = name
+    }
+
     override fun showProjectStats(stats: List<StatModel>) {
         view?.findViewById<RecyclerView>(R.id.rv_project_stats)?.setup(StatAdapter(stats))
     }

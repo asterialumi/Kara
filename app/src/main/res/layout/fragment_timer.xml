@@ -63,23 +63,23 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:text="■"
-            android:textSize="24sp"
+            android:textSize="32sp"
             android:textColor="@color/kara_primary"
-            android:background="@drawable/bg_input_field"
-            app:backgroundTint="@null"
+            android:background="@drawable/bg_button_circle"
+            app:backgroundTint="@color/kara_input_bg"
             android:visibility="gone" />
 
         <Space
             android:id="@+id/btn_space"
-            android:layout_width="32dp"
+            android:layout_width="28dp"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
 
         <!-- START / PAUSE BUTTON -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_start_pause"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:text="▶"
             android:textSize="32sp"
             android:textColor="@color/text_on_dark"

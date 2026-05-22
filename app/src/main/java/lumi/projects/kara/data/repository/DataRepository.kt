@@ -49,6 +49,7 @@ object DataRepository {
     }
 
     fun isLoggedIn(): Boolean = prefs.getCurrentUser() != null
+    fun getLoggedInUser(): String = prefs.getCurrentUser() ?: "User"
 
     fun register(user: UserInfo): Boolean {
         if (registeredUsers.any { it.username == user.username }) {

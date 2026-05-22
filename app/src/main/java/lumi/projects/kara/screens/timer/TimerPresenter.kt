@@ -81,6 +81,12 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
             tagsString.split(",").map { it.trim() }
         } else emptyList()
 
+        tagsList.forEach { tag ->
+            if (!DataRepository.tags.contains(tag)) {
+                DataRepository.addTag(tag)
+            }
+        }
+
         val entry = TimeEntry(
             projectName = view.getSelectedProject(),
             description = view.getDescription(),

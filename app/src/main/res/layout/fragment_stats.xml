@@ -14,13 +14,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/bg_button"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_total_tracked"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TOTAL TIME TRACKED"
@@ -46,12 +47,17 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_project_stats"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            android:layout_marginBottom="32dp" />
+            android:descendantFocusability="blocksDescendants">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_project_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+        </RelativeLayout>
 
         <!-- TAGS LIST -->
         <TextView
@@ -61,11 +67,17 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_tag_stats"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false" />
+            android:descendantFocusability="blocksDescendants">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_tag_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+        </RelativeLayout>
 
     </LinearLayout>
 </ScrollView>
