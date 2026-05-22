@@ -32,16 +32,16 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
     }
 
     override fun showSuccessMessage() {
-        toast("Register successful!")
+        snack("Register successful!")
     }
     override fun showEmptyFieldsMessage() {
-        toast("Fields are empty!")
+        snack("Fields are empty!")
     }
     override fun showPasswordMismatchMessage() {
-        toast("Passwords don't match!")
+        snack("Passwords don't match!")
     }
     override fun showUsernameExistsMessage() {
-        toast("Username already exists!")
+        snack("Username already exists!")
     }
 
     override fun navigateToLoginScreen() {

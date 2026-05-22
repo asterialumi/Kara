@@ -52,6 +52,12 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
         btnSpace.visible()
     }
 
+    override fun showPausedState() {
+        btnStart.text = "▶" // Resume symbol
+        btnStop.visible()
+        btnSpace.visible()
+    }
+
     override fun showStoppedState() {
         btnStart.text = "▶"
         btnStop.gone()
@@ -63,6 +69,8 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
     override fun getSelectedProject(): String = spinnerProject.selectedItem.toString()
 
     override fun getDescription(): String = getEditTextValue(R.id.edittext_description)
+
+    override fun getTagsInput(): String = getEditTextValue(R.id.edittext_tags)
 
     override fun showSaveSuccess() {
         snack("Entry Saved!")

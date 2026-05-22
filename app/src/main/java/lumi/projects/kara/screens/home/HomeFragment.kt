@@ -22,8 +22,16 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
         getButtonView(R.id.buttonLogout).setOnClickListener { presenter.onLogoutClicked() }
 
         view.findViewById<ImageButton>(R.id.btn_add_project).setOnClickListener {
-            showInputDialog("New Project", "Project name") { name ->
+            showInputDialog("New Project", "Enter project name") { name ->
                 presenter.onAddProjectClicked(name)
+                snack("Project '$name' added!")
+            }
+        }
+
+        view.findViewById<ImageButton>(R.id.btn_add_tag).setOnClickListener {
+            showInputDialog("New Tag", "Enter tag name") { tagName ->
+                presenter.onAddTagClicked(tagName)
+                snack("Tag '#$tagName' added!")
             }
         }
 
@@ -36,6 +44,16 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
     override fun displayProjects(projects: List<String>) {
         val container = view?.findViewById<LinearLayout>(R.id.project_list_container)
         container?.removeAllViews()
+
+        if (projects.isEmpty()) {
+            val emptyTv = TextView(requireContext()).apply {
+                text = "No projects created yet. Click + to add one!"
+                alpha = 0.5f
+                setPadding(0, 16, 0, 16)
+            }
+            container?.addView(emptyTv)
+            return
+        }
 
         projects.forEach { name ->
             val textView = TextView(requireContext()).apply {
@@ -52,6 +70,16 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
         val container = view?.findViewById<LinearLayout>(R.id.tag_list_container)
         container?.removeAllViews()
 
+        if (tags.isEmpty()) {
+            val emptyTv = TextView(requireContext()).apply {
+                text = "No tags created yet. Click + to add one!"
+                alpha = 0.5f
+                setPadding(0, 16, 0, 16)
+            }
+            container?.addView(emptyTv)
+            return
+        }
+
         tags.forEach { name ->
             val textView = TextView(requireContext()).apply {
                 text = "#$name"
@@ -65,21 +93,5 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
 
     override fun navigateToLogin() {
         startClear(LoginActivity::class.java)
-    }
-
-    private fun showAddProjectDialog() {
-        val builder = android.app.AlertDialog.Builder(requireContext())
-        builder.setTitle("New Project")
-        val input = android.widget.EditText(requireContext())
-        input.hint = "Project name"
-        builder.setView(input)
-
-        builder.setPositiveButton("Add") { _, _ ->
-            val name = input.text.toString()
-            if (name.isNotEmpty()) {
-                presenter.onAddProjectClicked(name)
-            }
-        }
-        builder.show()
     }
 }

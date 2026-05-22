@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/header_logo"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:src="@drawable/kara_icon" />
 
@@ -25,11 +25,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/header_logo"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="10dp"
             android:layout_centerVertical="true"
-            android:text="Dashboard"
+            android:text="Home"
             style="@style/TextAppearance.Kara.Header"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
 
         <ImageButton
             android:id="@+id/header_settings"

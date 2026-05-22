@@ -2,8 +2,8 @@ package lumi.projects.kara.data.model
 
 data class TimeEntry(
     val id: String = java.util.UUID.randomUUID().toString(),
-    val projectName: String,
-    val description: String,
+    val projectName: String = "Unnamed",
+    val description: String = "",
     val startTime: Long,
     val endTime: Long,
     val tags: List<String> = emptyList()

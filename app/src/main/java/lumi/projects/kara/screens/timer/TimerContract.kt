@@ -4,9 +4,11 @@ interface TimerContract {
     interface View {
         fun updateStopwatchText(formattedTime: String)
         fun showRunningState()
+        fun showPausedState()
         fun showStoppedState()
         fun getSelectedProject(): String
         fun getDescription(): String
+        fun getTagsInput(): String
         fun showSaveSuccess()
         fun setupProjectSpinner(projects: List<String>)
     }

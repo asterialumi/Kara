@@ -45,11 +45,11 @@ class AppMainActivity : AppCompatActivity() {
         // Handle navigation clicks
         bottomNav.setOnItemSelectedListener { item ->
             val (fragment, title) = when (item.itemId) {
-                R.id.nav_home -> HomeFragment() to "Dashboard"
-                R.id.nav_timer -> TimerFragment() to "Tracker"
+                R.id.nav_home -> HomeFragment() to "Home"
+                R.id.nav_timer -> TimerFragment() to "Timer"
                 R.id.nav_entries -> EntriesFragment() to "Entries"
-                R.id.nav_stats -> StatsFragment() to "Profile"
-                else -> HomeFragment() to "Dashboard"
+                R.id.nav_stats -> StatsFragment() to "Stats"
+                else -> HomeFragment() to "Home"
             }
             headerTitle.text = title
             loadFragment(fragment)
@@ -75,8 +75,8 @@ class AppMainActivity : AppCompatActivity() {
             .setTitle("Settings")
             .setItems(options) { _, which ->
                 when (which) {
-                    0 -> toast("Data exported to clipboard!") // Placeholder for logic
-                    1 -> toast("Import functionality coming soon!")
+                    0 -> snack("Data exported to clipboard!") // Placeholder for logic
+                    1 -> snack("Import functionality coming soon!")
                     2 -> {
                         DataRepository.logout()
                         startClear(LoginActivity::class.java)

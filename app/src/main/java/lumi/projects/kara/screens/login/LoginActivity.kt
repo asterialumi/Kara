@@ -27,15 +27,15 @@ class LoginActivity : Activity(), LoginContract.View {
     }
 
     override fun showSuccessMessage() {
-        toast("Login successful!")
+        snack("Login successful!")
     }
 
     override fun showInvalidCredentialMessage() {
-        toast("Invalid credentials!")
+        snack("Invalid credentials!")
     }
 
     override fun showEmptyMessage() {
-        toast("Fields cannot be empty!")
+        snack("Fields cannot be empty!")
     }
 
     override fun navigateToHomeScreen() {
@@ -47,6 +47,6 @@ class LoginActivity : Activity(), LoginContract.View {
     }
 
     override fun showGenericErrorMessage() {
-        toast("Unexpected error occurred")
+        snack("Unexpected error occurred")
     }
 }

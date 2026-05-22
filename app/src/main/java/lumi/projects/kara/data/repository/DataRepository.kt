@@ -17,6 +17,7 @@ object DataRepository {
     // Timer States
     var activeTimerStart: Long = 0L
     var activeProject: String? = null
+    var accumulatedMillis: Long = 0L
 
     fun init(context: Context) {
         // Initial Preparations
@@ -29,6 +30,7 @@ object DataRepository {
         // Persistent Timer
         activeTimerStart = prefs.getActiveTimerStart()
         activeProject = prefs.getActiveProject()
+        accumulatedMillis = prefs.getAccumulatedMillis()
     }
 
 
@@ -83,12 +85,29 @@ object DataRepository {
     fun startTimer(projectName: String) {
         activeTimerStart = System.currentTimeMillis()
         activeProject = projectName
-        prefs.saveActiveTimer(activeTimerStart, activeProject)
+        accumulatedMillis = 0L
+        saveTimerState()
+    }
+
+    fun pauseTimer(currentElapsed: Long) {
+        accumulatedMillis = currentElapsed
+        activeTimerStart = 0L
+        saveTimerState()
+    }
+
+    fun resumeTimer() {
+        activeTimerStart = System.currentTimeMillis()
+        saveTimerState()
     }
 
     fun stopTimer() {
         activeTimerStart = 0L
         activeProject = null
-        prefs.saveActiveTimer(0L, null)
+        accumulatedMillis = 0L
+        saveTimerState()
+    }
+
+    private fun saveTimerState() {
+        prefs.saveActiveTimer(activeTimerStart, activeProject, accumulatedMillis)
     }
 }

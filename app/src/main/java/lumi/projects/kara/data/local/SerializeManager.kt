@@ -10,7 +10,7 @@ import lumi.projects.kara.data.model.UserInfo
 class SerializeManager(context: Context) {
     // Setting up SharedPreferences
     // (a local save-state alternative to a database)
-    private val prefs: SharedPreferences = context.getSharedPreferences("kara_prefs", Context.MODE_PRIVATE)
+    private val prefs: SharedPreferences = context.getSharedPreferences("kara_prefs_fin", Context.MODE_PRIVATE)
     private val gson = Gson()
 
 
@@ -20,7 +20,7 @@ class SerializeManager(context: Context) {
     }
 
     fun getProjects(): MutableList<String> {
-        val json = prefs.getString("projects", null) ?: return mutableListOf("Work", "Study")
+        val json = prefs.getString("projects", null) ?: return mutableListOf()
         val type = object : TypeToken<MutableList<String>>() {}.type
         return gson.fromJson(json, type)
     }
@@ -31,7 +31,7 @@ class SerializeManager(context: Context) {
     }
 
     fun getTags(): MutableList<String> {
-        val json = prefs.getString("tags", null) ?: return mutableListOf("Urgent", "Relax")
+        val json = prefs.getString("tags", null) ?: return mutableListOf()
         val type = object : TypeToken<MutableList<String>>() {}.type
         return gson.fromJson(json, type)
     }
@@ -47,15 +47,17 @@ class SerializeManager(context: Context) {
         return gson.fromJson(json, type)
     }
 
-    fun saveActiveTimer(startTime: Long, projectName: String?) {
+    fun saveActiveTimer(startTime: Long, projectName: String?, accumulated: Long) {
         prefs.edit()
             .putLong("active_timer_start", startTime)
             .putString("active_project", projectName)
+            .putLong("accumulated_millis", accumulated)
             .apply()
     }
 
     fun getActiveTimerStart(): Long = prefs.getLong("active_timer_start", 0L)
     fun getActiveProject(): String? = prefs.getString("active_project", null)
+    fun getAccumulatedMillis(): Long = prefs.getLong("accumulated_millis", 0L)
 
     //FOR USERS
     fun saveSession(username: String?) {

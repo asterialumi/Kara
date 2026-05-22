@@ -14,8 +14,10 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
     // The Timer Logic
     private val runnable = object : Runnable {
         override fun run() {
-            val elapsed = System.currentTimeMillis() - DataRepository.activeTimerStart
-            view.updateStopwatchText(elapsed.toStopwatchFormat())
+            val currentChunk = System.currentTimeMillis() - DataRepository.activeTimerStart
+            val totalElapsed = DataRepository.accumulatedMillis + currentChunk
+
+            view.updateStopwatchText(totalElapsed.toStopwatchFormat())
             handler.postDelayed(this, 1000)
         }
     }
@@ -29,28 +31,62 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
             view.showRunningState()
             handler.post(runnable)
         }
+
+        // If the app was closed and timer was paused
+        else if (DataRepository.accumulatedMillis > 0L) {
+            isRunning = false
+            view.showPausedState()
+            view.updateStopwatchText(DataRepository.accumulatedMillis.toStopwatchFormat())
+        }
     }
 
     override fun onStartButtonClicked() {
         if (!isRunning) {
-            val projectName = view.getSelectedProject()
-            DataRepository.startTimer(projectName)
+            // If it's a resume
+            if (DataRepository.accumulatedMillis > 0L) {
+                DataRepository.resumeTimer()
+            } else {
+                // If it's a brand new start
+                DataRepository.startTimer(view.getSelectedProject())
+            }
 
             isRunning = true
             view.showRunningState()
             handler.post(runnable)
         } else {
-            // Optional: Implement Pause logic here if desired
+            // If it's a pause
+            val currentChunk = System.currentTimeMillis() - DataRepository.activeTimerStart
+            val totalSoFar = DataRepository.accumulatedMillis + currentChunk
+
+            DataRepository.pauseTimer(totalSoFar)
+
+            isRunning = false
+            handler.removeCallbacks(runnable)
+            view.showPausedState()
         }
     }
 
     override fun onStopButtonClicked() {
-        val endTime = System.currentTimeMillis()
+        // Calculate final total
+        val finalElapsed = if (isRunning) {
+            val currentChunk = System.currentTimeMillis() - DataRepository.activeTimerStart
+            DataRepository.accumulatedMillis + currentChunk
+        } else {
+            DataRepository.accumulatedMillis
+        }
+
+        // Parse tag list
+        val tagsString = view.getTagsInput()
+        val tagsList = if (tagsString.isNotEmpty()) {
+            tagsString.split(",").map { it.trim() }
+        } else emptyList()
+
         val entry = TimeEntry(
             projectName = view.getSelectedProject(),
             description = view.getDescription(),
-            startTime = DataRepository.activeTimerStart,
-            endTime = endTime
+            startTime = System.currentTimeMillis() - finalElapsed,
+            endTime = System.currentTimeMillis(),
+            tags = tagsList
         )
 
         DataRepository.saveEntry(entry)
@@ -58,7 +94,6 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
 
         isRunning = false
         handler.removeCallbacks(runnable)
-
         view.showStoppedState()
         view.updateStopwatchText("00:00:00")
         view.showSaveSuccess()
