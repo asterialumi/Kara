@@ -2,6 +2,8 @@ package lumi.projects.kara.screens.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -29,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        val headerTitle = findViewById<TextView>(R.id.header_title)
+        val btnSettings = findViewById<ImageButton>(R.id.header_settings)
 
         // 1. Load the HomeFragment by default
         if (savedInstanceState == null) {
@@ -37,13 +41,14 @@ class MainActivity : AppCompatActivity() {
 
         // 2. Handle Navigation Clicks
         bottomNav.setOnItemSelectedListener { item ->
-            val fragment: Fragment = when (item.itemId) {
-                R.id.nav_home -> HomeFragment()
-                R.id.nav_timer -> TimerFragment()
-                R.id.nav_entries -> EntriesFragment()
-                R.id.nav_stats -> StatsFragment()
-                else -> HomeFragment()
+            val (fragment, title) = when (item.itemId) {
+                R.id.nav_home -> HomeFragment() to "Dashboard"
+                R.id.nav_timer -> TimerFragment() to "Tracker"
+                R.id.nav_entries -> EntriesFragment() to "History"
+                R.id.nav_stats -> StatsFragment() to "Analytics"
+                else -> HomeFragment() to "Kara"
             }
+            headerTitle.text = title
             loadFragment(fragment)
             true
         }

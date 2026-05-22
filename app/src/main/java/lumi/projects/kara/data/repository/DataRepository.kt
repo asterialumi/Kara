@@ -62,6 +62,10 @@ object DataRepository {
         prefs.saveEntries(timeEntries)
     }
 
+    fun saveAllEntries() {
+        prefs.saveEntries(timeEntries)
+    }
+
     // In DataRepository object
     var activeTimerStart: Long = 0L // 0 means no timer running
     var activeProject: String? = null

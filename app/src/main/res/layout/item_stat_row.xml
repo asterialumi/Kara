@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/bg_input_field"> <!-- Reusing your sage box -->
+
+    <TextView
+        android:id="@+id/tv_stat_name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Project Name"
+        style="@style/TextAppearance.Kara.Body"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_stat_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="05h 20m"
+        android:textColor="@color/kara_primary"
+        style="@style/TextAppearance.Kara.Body" />
+</LinearLayout>
