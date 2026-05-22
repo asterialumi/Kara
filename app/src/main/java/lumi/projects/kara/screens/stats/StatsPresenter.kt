@@ -1,6 +1,7 @@
 package lumi.projects.kara.screens.stats
 
 import lumi.projects.kara.data.repository.DataRepository
+import lumi.projects.kara.utils.*
 
 class StatsPresenter(private val view: StatsContract.View) : StatsContract.Presenter {
 
@@ -9,7 +10,7 @@ class StatsPresenter(private val view: StatsContract.View) : StatsContract.Prese
 
         // 1. Calculate Total Time
         val totalMillis = entries.sumOf { it.durationMillis }
-        view.showTotalTime(formatDuration(totalMillis))
+        view.showTotalTime(totalMillis.toStatFormat())
 
         // 2. Group by Projects and Sort
         val projectStats = entries.groupBy { it.projectName }
@@ -20,7 +21,6 @@ class StatsPresenter(private val view: StatsContract.View) : StatsContract.Prese
         view.showProjectStats(projectStats)
 
         // 3. Group by Tags and Sort
-        // Since one entry has multiple tags, we "flatten" them
         val tagMap = mutableMapOf<String, Long>()
         entries.forEach { entry ->
             entry.tags.forEach { tag ->
@@ -32,9 +32,4 @@ class StatsPresenter(private val view: StatsContract.View) : StatsContract.Prese
         view.showTagStats(tagStats)
     }
 
-    private fun formatDuration(millis: Long): String {
-        val hours = millis / (1000 * 60 * 60)
-        val minutes = (millis / (1000 * 60)) % 60
-        return "${hours}h ${minutes}m"
-    }
 }

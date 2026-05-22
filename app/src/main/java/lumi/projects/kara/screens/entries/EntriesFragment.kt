@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import lumi.projects.kara.R
 import lumi.projects.kara.data.model.TimeEntry
+import lumi.projects.kara.utils.*
 
 class EntriesFragment : Fragment(R.layout.fragment_entries), EntriesContract.View {
     private lateinit var presenter: EntriesPresenter
@@ -18,11 +19,8 @@ class EntriesFragment : Fragment(R.layout.fragment_entries), EntriesContract.Vie
 
         presenter = EntriesPresenter(this)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.rv_entries)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
         adapter = TimeEntryAdapter(emptyList()) { id -> presenter.deleteEntry(id) }
-        recyclerView.adapter = adapter
+        view.findViewById<RecyclerView>(R.id.rv_entries).setup(adapter)
 
         presenter.start()
     }
@@ -32,7 +30,6 @@ class EntriesFragment : Fragment(R.layout.fragment_entries), EntriesContract.Vie
     }
 
     override fun showEmptyState(isVisible: Boolean) {
-        view?.findViewById<TextView>(R.id.tv_empty_state)?.visibility =
-            if (isVisible) View.VISIBLE else View.GONE
+        getTextView(R.id.tv_empty_state).showIf(isVisible)
     }
 }

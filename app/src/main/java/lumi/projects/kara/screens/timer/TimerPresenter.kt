@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import lumi.projects.kara.data.repository.DataRepository
 import lumi.projects.kara.data.model.TimeEntry
+import lumi.projects.kara.utils.*
 
 class TimerPresenter(private val view: TimerContract.View) : TimerContract.Presenter {
 
@@ -14,7 +15,7 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
     private val runnable = object : Runnable {
         override fun run() {
             val elapsed = System.currentTimeMillis() - DataRepository.activeTimerStart
-            view.updateStopwatchText(formatTime(elapsed))
+            view.updateStopwatchText(elapsed.toStopwatchFormat())
             handler.postDelayed(this, 1000)
         }
     }
@@ -65,12 +66,5 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
 
     override fun onCleared() {
         handler.removeCallbacks(runnable)
-    }
-
-    private fun formatTime(millis: Long): String {
-        val seconds = (millis / 1000) % 60
-        val minutes = (millis / (1000 * 60)) % 60
-        val hours = (millis / (1000 * 60 * 60))
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds)
     }
 }

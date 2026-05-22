@@ -1,6 +1,5 @@
 package lumi.projects.kara.screens.appmain
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.TextView
@@ -14,6 +13,7 @@ import lumi.projects.kara.screens.home.HomeFragment
 import lumi.projects.kara.screens.login.LoginActivity
 import lumi.projects.kara.screens.stats.StatsFragment
 import lumi.projects.kara.screens.timer.TimerFragment
+import lumi.projects.kara.utils.*
 
 class AppMainActivity : AppCompatActivity() {
     // we used AppCompatActivity so we can use finish()
@@ -24,15 +24,11 @@ class AppMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Check Session if there's current user
         if (!DataRepository.isLoggedIn()) {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            //removes this from history
-            finish()
+            startClear(LoginActivity::class.java)
             return
         }
-
-
 
         setContentView(R.layout.activity_main)
 
@@ -59,6 +55,10 @@ class AppMainActivity : AppCompatActivity() {
             loadFragment(fragment)
             true
         }
+
+        btnSettings.setOnClickListener {
+            showSettingsDialog()
+        }
     }
 
     private fun loadFragment(fragment: Fragment) {
@@ -67,5 +67,21 @@ class AppMainActivity : AppCompatActivity() {
             .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             .replace(R.id.fragment_container, fragment)
             .commit()
+    }
+
+    private fun showSettingsDialog() {
+        val options = arrayOf("Export Data", "Import Data", "Logout")
+        android.app.AlertDialog.Builder(this)
+            .setTitle("Settings")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> toast("Data exported to clipboard!") // Placeholder for logic
+                    1 -> toast("Import functionality coming soon!")
+                    2 -> {
+                        DataRepository.logout()
+                        startClear(LoginActivity::class.java)
+                    }
+                }
+            }.show()
     }
 }

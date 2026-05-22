@@ -26,15 +26,14 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Init UI
-        tvStopwatch = view.findViewById(R.id.textview_stopwatch)
-        btnStart = view.findViewById(R.id.btn_start_pause)
-        btnStop = view.findViewById(R.id.btn_stop)
+        tvStopwatch = getTextView(R.id.textview_stopwatch)
+        btnStart = getButtonView(R.id.btn_start_pause)
+        btnStop = getButtonView(R.id.btn_stop)
+
         btnSpace = view.findViewById(R.id.btn_space)
         spinnerProject = view.findViewById(R.id.spinner_project)
         etDescription = view.findViewById(R.id.edittext_description)
 
-        // Init Presenter
         presenter = TimerPresenter(this)
 
         btnStart.setOnClickListener { presenter.onStartButtonClicked() }
@@ -49,23 +48,24 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
 
     override fun showRunningState() {
         btnStart.text = "||"
-        btnStop.visibility = View.VISIBLE
-        btnSpace.visibility = View.VISIBLE
+        btnStop.visible()
+        btnSpace.visible()
     }
 
     override fun showStoppedState() {
         btnStart.text = "▶"
-        btnStop.visibility = View.GONE
-        btnSpace.visibility = View.GONE
+        btnStop.gone()
+        btnSpace.gone()
         etDescription.text.clear()
+        hideKeyboard()
     }
 
     override fun getSelectedProject(): String = spinnerProject.selectedItem.toString()
 
-    override fun getDescription(): String = etDescription.text.toString()
+    override fun getDescription(): String = getEditTextValue(R.id.edittext_description)
 
     override fun showSaveSuccess() {
-        toast("Entry Saved!")
+        snack("Entry Saved!")
     }
 
     override fun setupProjectSpinner(projects: List<String>) {

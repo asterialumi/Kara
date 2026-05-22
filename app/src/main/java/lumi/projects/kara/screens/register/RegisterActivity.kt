@@ -6,7 +6,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import lumi.projects.kara.R
 import lumi.projects.kara.screens.login.LoginActivity
-import lumi.projects.kara.utils.toast
+import lumi.projects.kara.utils.*
 
 class RegisterActivity : AppCompatActivity(), RegisterContract.View {
 
@@ -18,17 +18,15 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
 
         // Set-up Views and Presenter
         presenter = RegisterPresenter(this)
-        val btnRegister = findViewById<Button>(R.id.buttonRegister)
-        val tvReturn = findViewById<TextView>(R.id.textviewReturnLogin)
 
-        btnRegister.setOnClickListener {
+        getButtonView(R.id.buttonRegister).setOnClickListener {
             val username = findViewById<EditText>(R.id.edittextNewUsername).text.toString()
             val password = findViewById<EditText>(R.id.edittextNewPassword).text.toString()
             val confirm = findViewById<EditText>(R.id.edittextConfirmPassword).text.toString()
             presenter.onRegisterButtonClicked(username, password, confirm)
         }
 
-        tvReturn.setOnClickListener {
+        getTextView(R.id.textviewReturnLogin).setOnClickListener {
             navigateToLoginScreen()
         }
     }

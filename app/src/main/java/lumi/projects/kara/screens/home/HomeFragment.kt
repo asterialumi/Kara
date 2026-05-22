@@ -1,9 +1,7 @@
 package lumi.projects.kara.screens.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextClock
@@ -11,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import lumi.projects.kara.R
 import lumi.projects.kara.screens.login.LoginActivity
+import lumi.projects.kara.utils.*
 
 class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
 
@@ -20,17 +19,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
         super.onViewCreated(view, savedInstanceState)
         presenter = HomePresenter(this)
 
+        getButtonView(R.id.buttonLogout).setOnClickListener { presenter.onLogoutClicked() }
 
-        val btnLogout = view.findViewById<Button>(R.id.buttonLogout)
-        btnLogout.setOnClickListener { presenter.onLogoutClicked() }
-
-        val btnAddProject = view.findViewById<ImageButton>(R.id.btn_add_project)
-        btnAddProject.setOnClickListener {
-            showAddProjectDialog()
+        view.findViewById<ImageButton>(R.id.btn_add_project).setOnClickListener {
+            showInputDialog("New Project", "Project name") { name ->
+                presenter.onAddProjectClicked(name)
+            }
         }
 
-        val clock = view.findViewById<TextClock>(R.id.dashboard_clock)
-        clock.timeZone = "Asia/Manila"
+        view.findViewById<TextClock>(R.id.dashboard_clock).timeZone = "Asia/Manila"
 
         // Logic to refresh data
         presenter.start()
@@ -40,13 +37,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
         val container = view?.findViewById<LinearLayout>(R.id.project_list_container)
         container?.removeAllViews()
 
-        for (projectName in projects) {
-            val textView = TextView(requireContext())
-            textView.text = "• $projectName"
-            textView.setPadding(0, 8, 0, 8)
-            textView.setTextColor(resources.getColor(R.color.text_on_light))
-            textView.textSize = 16f
-
+        projects.forEach { name ->
+            val textView = TextView(requireContext()).apply {
+                text = "• $name"
+                textSize = 16f
+                setTextColor(color(R.color.text_on_light))
+                setPadding(0, 8, 0, 8)
+            }
             container?.addView(textView)
         }
     }
@@ -55,21 +52,19 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
         val container = view?.findViewById<LinearLayout>(R.id.tag_list_container)
         container?.removeAllViews()
 
-        for (tagName in tags) {
-            val textView = TextView(requireContext())
-            textView.text = "#$tagName"
-            textView.setPadding(0, 8, 0, 8)
-            textView.setTextColor(resources.getColor(R.color.kara_accent))
-            textView.textSize = 16f
-
+        tags.forEach { name ->
+            val textView = TextView(requireContext()).apply {
+                text = "#$name"
+                textSize = 16f
+                setTextColor(color(R.color.kara_accent))
+                setPadding(0, 8, 0, 8)
+            }
             container?.addView(textView)
         }
     }
 
     override fun navigateToLogin() {
-        val intent = Intent(requireContext(), LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
+        startClear(LoginActivity::class.java)
     }
 
     private fun showAddProjectDialog() {
