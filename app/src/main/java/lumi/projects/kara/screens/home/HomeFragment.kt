@@ -17,7 +17,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter = HomePresenter(this)
+        presenter = HomePresenter(this, HomeModel())
 
         getButtonView(R.id.buttonLogout).setOnClickListener { presenter.onLogoutClicked() }
 

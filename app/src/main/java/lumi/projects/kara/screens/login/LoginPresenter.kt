@@ -1,8 +1,9 @@
 package lumi.projects.kara.screens.login
 
-import lumi.projects.kara.data.repository.DataRepository
-
-class LoginPresenter(private val view: LoginContract.View) : LoginContract.Presenter {
+class LoginPresenter(
+    private val view: LoginContract.View,
+    private val model: LoginContract.Model
+) : LoginContract.Presenter {
 
     override fun login(username: String, password: String) {
         if (username.isEmpty() || password.isEmpty()) {
@@ -10,7 +11,8 @@ class LoginPresenter(private val view: LoginContract.View) : LoginContract.Prese
             return
         }
 
-        if (DataRepository.login(username, password)) {
+        // Presenter asks Model to handle the verification
+        if (model.attemptLogin(username, password)) {
             view.showSuccessMessage()
             view.navigateToHomeScreen()
         } else {

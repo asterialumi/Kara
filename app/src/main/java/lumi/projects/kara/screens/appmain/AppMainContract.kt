@@ -20,7 +20,6 @@ interface AppMainContract {
         fun onImportClicked(clipboardText: String?)
     }
 
-    // THE ACADEMIC MODEL
     interface Model {
         fun isLoggedIn(): Boolean
         fun getExportJson(): String

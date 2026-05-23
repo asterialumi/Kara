@@ -13,4 +13,12 @@ interface HomeContract {
         fun onAddTagClicked(name: String)
         fun onLogoutClicked()
     }
+
+    interface Model {
+        fun getProjects(): List<String>
+        fun getTags(): List<String>
+        fun addProject(name: String)
+        fun addTag(name: String)
+        fun logout()
+    }
 }

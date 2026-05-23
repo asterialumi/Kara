@@ -17,7 +17,7 @@ class EntriesFragment : Fragment(R.layout.fragment_entries), EntriesContract.Vie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter = EntriesPresenter(this)
+        presenter = EntriesPresenter(this, EntriesModel())
 
         adapter = TimeEntryAdapter(emptyList()) { id -> presenter.deleteEntry(id) }
         view.findViewById<RecyclerView>(R.id.rv_entries).setup(adapter)

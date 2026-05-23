@@ -28,6 +28,8 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val model = TimerModel()
+        presenter = TimerPresenter(this, model)
 
         tvStopwatch = getTextView(R.id.textview_stopwatch)
         btnStart = getButtonView(R.id.btn_start_pause)
@@ -39,7 +41,7 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
         etTags = view.findViewById(R.id.edittext_tags)
 
         // Set-up Tag Autocomplete
-        val tagAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, DataRepository.tags)
+        val tagAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, model.getTags())
         etTags.setAdapter(tagAdapter)
         etTags.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
 
@@ -47,8 +49,6 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
         etDescription.setText(DataRepository.activeDescription)
         etTags.setText(DataRepository.activeTagsInput)
 
-
-        presenter = TimerPresenter(this)
 
         btnStart.setOnClickListener { presenter.onStartButtonClicked() }
         btnStop.setOnClickListener { presenter.onStopButtonClicked() }
@@ -59,7 +59,7 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
     override fun onPause() {
         super.onPause()
         // Persist description and tag text
-        DataRepository.updateTimerMetadata(getDescription(), getTagsInput())
+        presenter.onPauseCalled(getDescription(), getTagsInput())
     }
 
     override fun updateStopwatchText(formattedTime: String) {
@@ -84,9 +84,6 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
         btnSpace.gone()
         etDescription.text.clear()
         etTags.text.clear()
-
-        // Reset the metadata state
-        DataRepository.updateTimerMetadata("", "")
         hideKeyboard()
     }
 

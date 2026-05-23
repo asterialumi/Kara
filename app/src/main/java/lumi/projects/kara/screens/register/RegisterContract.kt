@@ -12,4 +12,8 @@ interface RegisterContract {
     interface Presenter {
         fun onRegisterButtonClicked(username: String, password: String, confirm: String)
     }
+
+    interface Model {
+        fun registerUser(username: String, pword: String): Boolean
+    }
 }

@@ -14,4 +14,8 @@ interface LoginContract {
     interface Presenter {
         fun login(username: String, password: String)
     }
+
+    interface Model {
+        fun attemptLogin(username: String, password: String): Boolean
+    }
 }

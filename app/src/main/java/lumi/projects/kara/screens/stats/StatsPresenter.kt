@@ -1,24 +1,28 @@
 package lumi.projects.kara.screens.stats
 
-import lumi.projects.kara.data.repository.DataRepository
+import lumi.projects.kara.data.model.StatItem
 import lumi.projects.kara.utils.*
 
-class StatsPresenter(private val view: StatsContract.View) : StatsContract.Presenter {
+class StatsPresenter(
+    private val view: StatsContract.View,
+    private val model: StatsContract.Model
+) : StatsContract.Presenter {
 
     override fun start() {
-        val entries = DataRepository.timeEntries
+        // Fetch data via the Model bridge
+        val entries = model.getTimeEntries()
+        val userName = model.getLoggedInUser()
 
-        val userName = DataRepository.getLoggedInUser()
         view.showUserHeader("${userName.uppercase()}'S TIME TRACKED")
 
         // 1. Calculate Total Time
         val totalMillis = entries.sumOf { it.durationMillis }
         view.showTotalTime(totalMillis.toStatFormat())
 
-        // 2. Group by Projects and Sort
+        // 2. Group by Projects and Sort (Using StatItem)
         val projectStats = entries.groupBy { it.projectName }
             .map { (name, projectEntries) ->
-                StatModel(name, projectEntries.sumOf { it.durationMillis })
+                StatItem(name, projectEntries.sumOf { it.durationMillis })
             }
             .sortedByDescending { it.totalDurationMillis }
         view.showProjectStats(projectStats)
@@ -31,9 +35,8 @@ class StatsPresenter(private val view: StatsContract.View) : StatsContract.Prese
                 tagMap[cleanTag] = (tagMap[cleanTag] ?: 0L) + entry.durationMillis
             }
         }
-        val tagStats = tagMap.map { StatModel(it.key, it.value) }
+        val tagStats = tagMap.map { StatItem(it.key, it.value) }
             .sortedByDescending { it.totalDurationMillis }
         view.showTagStats(tagStats)
     }
-
 }

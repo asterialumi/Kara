@@ -11,4 +11,10 @@ interface EntriesContract {
         fun start()
         fun deleteEntry(entryId: String)
     }
+
+    interface Model {
+        fun getAllEntriesReversed(): List<TimeEntry>
+        fun removeEntry(id: String)
+        fun isEmpty(): Boolean
+    }
 }

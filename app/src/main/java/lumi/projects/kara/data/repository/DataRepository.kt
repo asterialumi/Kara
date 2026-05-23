@@ -72,6 +72,8 @@ object DataRepository {
         activeTimerStart = 0L
         activeProject = null
         accumulatedMillis = 0L
+        activeDescription = ""
+        activeTagsInput = ""
     }
 
     fun isLoggedIn(): Boolean = prefs.getCurrentUser() != null

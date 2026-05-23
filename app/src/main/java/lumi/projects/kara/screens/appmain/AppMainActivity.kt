@@ -15,13 +15,16 @@ import lumi.projects.kara.screens.login.LoginActivity
 import lumi.projects.kara.utils.*
 
 class AppMainActivity : AppCompatActivity(), AppMainContract.View {
+    // we used AppCompatActivity so we can use finish()
+    // finish() ensures the user cannot "back button" to go back to this screen
+    // essentially removing this from history when its done
+    // you'll see other activities/fragments here using AppCompat for the same reason
 
     private lateinit var presenter: AppMainContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize MVP components
         presenter = AppMainPresenter(this, AppMainModel())
         presenter.init()
 

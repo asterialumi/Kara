@@ -8,12 +8,13 @@ import lumi.projects.kara.data.model.TimeEntry
 import lumi.projects.kara.data.model.UserInfo
 
 class SerializeManager(context: Context) {
+    private val context = context
+    private val gson = Gson()
+
     // Setting up SharedPreferences
     // (a local save-state alternative to a database)
     private val accountPrefs = context.getSharedPreferences("KARA_GLOBAL_ACCOUNTS", Context.MODE_PRIVATE)
     private var dataPrefs: SharedPreferences? = null
-    private val context = context
-    private val gson = Gson()
 
     fun initUserSession(username: String) {
         dataPrefs = context.getSharedPreferences("KARA_DATA_$username", Context.MODE_PRIVATE)

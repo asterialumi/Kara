@@ -1,19 +1,23 @@
 package lumi.projects.kara.screens.entries
 
-import lumi.projects.kara.data.repository.DataRepository
+class EntriesPresenter(
+    private val view: EntriesContract.View,
+    private val model: EntriesContract.Model
+) : EntriesContract.Presenter {
 
-class EntriesPresenter(private val view: EntriesContract.View) : EntriesContract.Presenter {
     override fun start() {
-        // Show newest first
-        val entries = DataRepository.timeEntries.reversed()
+        // Presenter asks Model for the data
+        val entries = model.getAllEntriesReversed()
+
         view.showEntries(entries)
-        view.showEmptyState(entries.isEmpty())
+        view.showEmptyState(model.isEmpty())
     }
 
     override fun deleteEntry(entryId: String) {
-        DataRepository.timeEntries.removeAll { it.id == entryId }
-        // Save the updated list back to disk
-        DataRepository.saveAllEntries()
+        // Presenter tells Model to perform deletion
+        model.removeEntry(entryId)
+
+        // Refresh UI
         start()
     }
 }

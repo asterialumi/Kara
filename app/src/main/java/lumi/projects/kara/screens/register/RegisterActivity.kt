@@ -17,7 +17,7 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
         setContentView(R.layout.activity_register)
 
         // Set-up Views and Presenter
-        presenter = RegisterPresenter(this)
+        presenter = RegisterPresenter(this, RegisterModel())
 
         getButtonView(R.id.buttonRegister).setOnClickListener {
             val username = findViewById<EditText>(R.id.edittextNewUsername).text.toString()

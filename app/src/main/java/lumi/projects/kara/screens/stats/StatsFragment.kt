@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import lumi.projects.kara.R
+import lumi.projects.kara.data.model.StatItem
 import lumi.projects.kara.utils.*
 
 class StatsFragment : Fragment(R.layout.fragment_stats), StatsContract.View {
@@ -12,7 +13,7 @@ class StatsFragment : Fragment(R.layout.fragment_stats), StatsContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter = StatsPresenter(this)
+        presenter = StatsPresenter(this, StatsModel())
         presenter.start()
     }
 
@@ -24,11 +25,11 @@ class StatsFragment : Fragment(R.layout.fragment_stats), StatsContract.View {
         getTextView(R.id.tv_total_tracked).text = name
     }
 
-    override fun showProjectStats(stats: List<StatModel>) {
-        view?.findViewById<RecyclerView>(R.id.rv_project_stats)?.setup(StatAdapter(stats))
+    override fun showProjectStats(stats: List<StatItem>) {
+        view?.findViewById<RecyclerView>(R.id.rv_project_stats)?.setup(StatItemAdapter(stats))
     }
 
-    override fun showTagStats(stats: List<StatModel>) {
-        view?.findViewById<RecyclerView>(R.id.rv_tag_stats)?.setup(StatAdapter(stats))
+    override fun showTagStats(stats: List<StatItem>) {
+        view?.findViewById<RecyclerView>(R.id.rv_tag_stats)?.setup(StatItemAdapter(stats))
     }
 }

@@ -1,9 +1,9 @@
 package lumi.projects.kara.screens.register
 
-import lumi.projects.kara.data.model.UserInfo
-import lumi.projects.kara.data.repository.DataRepository
-
-class RegisterPresenter(private val view: RegisterContract.View) : RegisterContract.Presenter {
+class RegisterPresenter(
+    private val view: RegisterContract.View,
+    private val model: RegisterContract.Model
+) : RegisterContract.Presenter {
 
     override fun onRegisterButtonClicked(username: String, password: String, confirm: String) {
         if (username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
@@ -16,7 +16,8 @@ class RegisterPresenter(private val view: RegisterContract.View) : RegisterContr
             return
         }
 
-        val success = DataRepository.register(UserInfo(username, password))
+        // Presenter asks the Model to perform the registration
+        val success = model.registerUser(username, password)
 
         if (success) {
             view.showSuccessMessage()

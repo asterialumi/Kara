@@ -2,11 +2,13 @@ package lumi.projects.kara.screens.timer
 
 import android.os.Handler
 import android.os.Looper
-import lumi.projects.kara.data.repository.DataRepository
 import lumi.projects.kara.data.model.TimeEntry
 import lumi.projects.kara.utils.*
 
-class TimerPresenter(private val view: TimerContract.View) : TimerContract.Presenter {
+class TimerPresenter(
+    private val view: TimerContract.View,
+    private val model: TimerContract.Model
+) : TimerContract.Presenter {
 
     private val handler = Handler(Looper.getMainLooper())
     private var isRunning = false
@@ -14,8 +16,9 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
     // The Timer Logic
     private val runnable = object : Runnable {
         override fun run() {
-            val currentChunk = System.currentTimeMillis() - DataRepository.activeTimerStart
-            val totalElapsed = DataRepository.accumulatedMillis + currentChunk
+            // MATH: Using model state
+            val currentChunk = System.currentTimeMillis() - model.getActiveTimerStart()
+            val totalElapsed = model.getAccumulatedMillis() + currentChunk
 
             view.updateStopwatchText(totalElapsed.toStopwatchFormat())
             handler.postDelayed(this, 1000)
@@ -23,31 +26,34 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
     }
 
     override fun start() {
-        view.setupProjectSpinner(DataRepository.projects)
+        view.setupProjectSpinner(model.getProjects())
 
         // If the app was closed while timer was running, resume it
-        if (DataRepository.activeTimerStart != 0L) {
+        if (model.getActiveTimerStart() != 0L) {
             isRunning = true
             view.showRunningState()
             handler.post(runnable)
         }
-
         // If the app was closed and timer was paused
-        else if (DataRepository.accumulatedMillis > 0L) {
+        else if (model.getAccumulatedMillis() > 0L) {
             isRunning = false
             view.showPausedState()
-            view.updateStopwatchText(DataRepository.accumulatedMillis.toStopwatchFormat())
+            view.updateStopwatchText(model.getAccumulatedMillis().toStopwatchFormat())
         }
+    }
+
+    override fun onPauseCalled(description: String, tags: String) {
+        model.updateMetadata(description, tags)
     }
 
     override fun onStartButtonClicked() {
         if (!isRunning) {
             // If it's a resume
-            if (DataRepository.accumulatedMillis > 0L) {
-                DataRepository.resumeTimer()
+            if (model.getAccumulatedMillis() > 0L) {
+                model.resumeTimer()
             } else {
                 // If it's a brand new start
-                DataRepository.startTimer(view.getSelectedProject())
+                model.startTimer(view.getSelectedProject())
             }
 
             isRunning = true
@@ -55,10 +61,10 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
             handler.post(runnable)
         } else {
             // If it's a pause
-            val currentChunk = System.currentTimeMillis() - DataRepository.activeTimerStart
-            val totalSoFar = DataRepository.accumulatedMillis + currentChunk
+            val currentChunk = System.currentTimeMillis() - model.getActiveTimerStart()
+            val totalSoFar = model.getAccumulatedMillis() + currentChunk
 
-            DataRepository.pauseTimer(totalSoFar)
+            model.pauseTimer(totalSoFar)
 
             isRunning = false
             handler.removeCallbacks(runnable)
@@ -69,23 +75,21 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
     override fun onStopButtonClicked() {
         // Calculate final total
         val finalElapsed = if (isRunning) {
-            val currentChunk = System.currentTimeMillis() - DataRepository.activeTimerStart
-            DataRepository.accumulatedMillis + currentChunk
+            val currentChunk = System.currentTimeMillis() - model.getActiveTimerStart()
+            model.getAccumulatedMillis() + currentChunk
         } else {
-            DataRepository.accumulatedMillis
+            model.getAccumulatedMillis()
         }
 
         // Parse tag list
         val tagsString = view.getTagsInput()
         val tagsList = if (tagsString.isNotEmpty()) {
             tagsString.split(",").map { it.trim() }
+                .filter { it.isNotBlank() }
         } else emptyList()
 
-        tagsList.forEach { tag ->
-            if (!DataRepository.tags.contains(tag)) {
-                DataRepository.addTag(tag)
-            }
-        }
+        // Sync tags with master list via model
+        tagsList.forEach { tag -> model.addTagIfNew(tag) }
 
         val entry = TimeEntry(
             projectName = view.getSelectedProject(),
@@ -95,8 +99,10 @@ class TimerPresenter(private val view: TimerContract.View) : TimerContract.Prese
             tags = tagsList
         )
 
-        DataRepository.saveEntry(entry)
-        DataRepository.stopTimer()
+        model.saveEntry(entry)
+        model.stopTimer()
+        // Clear temp storage
+        model.updateMetadata("", "")
 
         isRunning = false
         handler.removeCallbacks(runnable)
