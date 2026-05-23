@@ -97,6 +97,10 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
         snack("Entry Saved!")
     }
 
+    override fun showNoProjectWarning() {
+        snack("Please create a project first!")
+    }
+
     override fun setupProjectSpinner(projects: List<String>) {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, projects)
         spinnerProject.adapter = adapter

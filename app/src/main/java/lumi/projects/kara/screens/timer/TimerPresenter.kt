@@ -47,6 +47,12 @@ class TimerPresenter(
     }
 
     override fun onStartButtonClicked() {
+        // If no project is created yet
+        if (model.getProjects().isEmpty()) {
+            view.showNoProjectWarning()
+            return
+        }
+
         if (!isRunning) {
             // If it's a resume
             if (model.getAccumulatedMillis() > 0L) {

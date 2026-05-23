@@ -17,9 +17,18 @@
             android:layout_width="300dp"
             android:layout_height="180dp"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/kara_logo"
             android:contentDescription="Kara Logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Track your time. Own your day."
+            android:textColor="@color/kara_primary"
+            android:layout_marginBottom="10dp"
+            style="@style/TextAppearance.Kara.BodyItalic"/>
 
         <EditText
             android:id="@+id/edittextUsername"

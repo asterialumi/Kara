@@ -27,5 +27,13 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <!-- Body Style (Italic) -->
+    <style name="TextAppearance.Kara.BodyItalic" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:textColor">@color/text_on_light</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="Theme.Kara" parent="Base.Theme.Kara" />
 </resources>

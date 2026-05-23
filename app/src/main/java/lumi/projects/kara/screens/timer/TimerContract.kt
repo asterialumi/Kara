@@ -12,6 +12,7 @@ interface TimerContract {
         fun getDescription(): String
         fun getTagsInput(): String
         fun showSaveSuccess()
+        fun showNoProjectWarning()
         fun setupProjectSpinner(projects: List<String>)
     }
 

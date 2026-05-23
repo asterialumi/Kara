@@ -7,6 +7,14 @@
     android:background="@color/kara_background">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Recent Tracks"
+        android:alpha="0.6"
+        android:layout_marginBottom="16dp"
+        style="@style/TextAppearance.Kara.BodyItalic" />
+
+    <TextView
         android:id="@+id/tv_empty_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

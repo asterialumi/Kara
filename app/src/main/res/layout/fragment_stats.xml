@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:text="TOTAL TIME TRACKED"
                 android:textColor="#A0FFFFFF"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:letterSpacing="0.1" />
 
             <TextView
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text="00h 00m"
                 android:textColor="@color/white"
-                android:textSize="32sp"
+                android:textSize="34sp"
                 android:fontFamily="@font/montserrat_bold" />
         </LinearLayout>
 

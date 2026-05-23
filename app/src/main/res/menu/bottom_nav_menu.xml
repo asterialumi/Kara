@@ -6,14 +6,14 @@
         android:title="Home" />
     <item
         android:id="@+id/nav_timer"
-        android:icon="@android:drawable/ic_menu_recent_history"
+        android:icon="@drawable/ic_menu_timer"
         android:title="Timer" />
     <item
         android:id="@+id/nav_entries"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/ic_menu_entries"
         android:title="Entries" />
     <item
         android:id="@+id/nav_stats"
-        android:icon="@android:drawable/ic_menu_compass"
+        android:icon="@drawable/ic_menu_stats"
         android:title="Stats" />
 </menu>
