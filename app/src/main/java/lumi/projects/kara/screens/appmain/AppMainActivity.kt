@@ -1,5 +1,8 @@
 package lumi.projects.kara.screens.appmain
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.TextView
@@ -8,80 +11,72 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import lumi.projects.kara.R
 import lumi.projects.kara.data.repository.DataRepository
-import lumi.projects.kara.screens.entries.EntriesFragment
-import lumi.projects.kara.screens.home.HomeFragment
 import lumi.projects.kara.screens.login.LoginActivity
-import lumi.projects.kara.screens.stats.StatsFragment
-import lumi.projects.kara.screens.timer.TimerFragment
 import lumi.projects.kara.utils.*
 
-class AppMainActivity : AppCompatActivity() {
-    // we used AppCompatActivity so we can use finish()
-    // finish() ensures the user cannot "back button" to go back to this screen
-    // essentially removing this from history when its done
-    // you'll see other activities/fragments here using AppCompat for the same reason
+class AppMainActivity : AppCompatActivity(), AppMainContract.View {
+
+    private lateinit var presenter: AppMainContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Check Session if there's current user
-        if (!DataRepository.isLoggedIn()) {
-            startClear(LoginActivity::class.java)
-            return
-        }
+        // Initialize MVP components
+        presenter = AppMainPresenter(this, AppMainModel())
+        presenter.init()
 
         setContentView(R.layout.activity_main)
 
-        // Set-up Views
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        val headerTitle = findViewById<TextView>(R.id.header_title)
         val btnSettings = findViewById<ImageButton>(R.id.header_settings)
 
-        // Load the HomeFragment by default
         if (savedInstanceState == null) {
-            loadFragment(HomeFragment())
+            presenter.onNavigationItemSelected(R.id.nav_home)
         }
 
-        // Handle navigation clicks
         bottomNav.setOnItemSelectedListener { item ->
-            val (fragment, title) = when (item.itemId) {
-                R.id.nav_home -> HomeFragment() to "Home"
-                R.id.nav_timer -> TimerFragment() to "Timer"
-                R.id.nav_entries -> EntriesFragment() to "Entries"
-                R.id.nav_stats -> StatsFragment() to "Stats"
-                else -> HomeFragment() to "Home"
-            }
-            headerTitle.text = title
-            loadFragment(fragment)
+            presenter.onNavigationItemSelected(item.itemId)
             true
         }
 
-        btnSettings.setOnClickListener {
-            showSettingsDialog()
-        }
+        btnSettings.setOnClickListener { showSettingsDialog() }
     }
 
-    private fun loadFragment(fragment: Fragment) {
-        //Fade transition between fragments
+    private fun showSettingsDialog() {
+        val options = arrayOf("Export Data", "Import Data")
+        android.app.AlertDialog.Builder(this)
+            .setTitle("Settings")
+            .setItems(options) { _, which ->
+                if (which == 0) presenter.onExportClicked()
+                else {
+                    val cb = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val text = cb.primaryClip?.getItemAt(0)?.text?.toString()
+                    presenter.onImportClicked(text)
+                }
+            }.show()
+    }
+
+    override fun navigateToLogin() = startClear(LoginActivity::class.java)
+
+    override fun showHeaderTitle(title: String) {
+        findViewById<TextView>(R.id.header_title).text = title
+    }
+
+    override fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
 
-    private fun showSettingsDialog() {
-        val options = arrayOf("Export Data", "Import Data", "Logout")
-        android.app.AlertDialog.Builder(this)
-            .setTitle("Settings")
-            .setItems(options) { _, which ->
-                when (which) {
-                    0 -> snack("Data exported to clipboard!") // Placeholder for logic
-                    1 -> snack("Import functionality coming soon!")
-                    2 -> {
-                        DataRepository.logout()
-                        startClear(LoginActivity::class.java)
-                    }
-                }
-            }.show()
+    override fun showExportSuccess() {
+        val json = DataRepository.exportToClipboardJson()
+        val cb = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        cb.setPrimaryClip(ClipData.newPlainText("KaraData", json))
+        snack("Data copied to clipboard!")
     }
+
+    override fun showImportSuccess() = snack("Import Success!")
+    override fun showImportError() = snack("Invalid data in clipboard!")
+    override fun showClipboardEmpty() = snack("Clipboard is empty!")
 }

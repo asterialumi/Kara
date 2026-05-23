@@ -27,7 +27,7 @@
         style="@style/TextAppearance.Kara.Body" />
 
     <!-- Tags Input -->
-    <EditText
+    <MultiAutoCompleteTextView
         android:id="@+id/edittext_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -5,10 +5,12 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.MultiAutoCompleteTextView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import lumi.projects.kara.R
+import lumi.projects.kara.data.repository.DataRepository
 import lumi.projects.kara.utils.*
 
 class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
@@ -22,6 +24,7 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
     private lateinit var btnSpace: View
     private lateinit var spinnerProject: Spinner
     private lateinit var etDescription: EditText
+    private lateinit var etTags: MultiAutoCompleteTextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,6 +36,17 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
         btnSpace = view.findViewById(R.id.btn_space)
         spinnerProject = view.findViewById(R.id.spinner_project)
         etDescription = view.findViewById(R.id.edittext_description)
+        etTags = view.findViewById(R.id.edittext_tags)
+
+        // Set-up Tag Autocomplete
+        val tagAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, DataRepository.tags)
+        etTags.setAdapter(tagAdapter)
+        etTags.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
+
+        // Restore Persisted Text
+        etDescription.setText(DataRepository.activeDescription)
+        etTags.setText(DataRepository.activeTagsInput)
+
 
         presenter = TimerPresenter(this)
 
@@ -40,6 +54,12 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
         btnStop.setOnClickListener { presenter.onStopButtonClicked() }
 
         presenter.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Persist description and tag text
+        DataRepository.updateTimerMetadata(getDescription(), getTagsInput())
     }
 
     override fun updateStopwatchText(formattedTime: String) {
@@ -53,7 +73,7 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
     }
 
     override fun showPausedState() {
-        btnStart.text = "▶" // Resume symbol
+        btnStart.text = "▶"
         btnStop.visible()
         btnSpace.visible()
     }
@@ -63,14 +83,18 @@ class TimerFragment : Fragment(R.layout.fragment_timer), TimerContract.View {
         btnStop.gone()
         btnSpace.gone()
         etDescription.text.clear()
+        etTags.text.clear()
+
+        // Reset the metadata state
+        DataRepository.updateTimerMetadata("", "")
         hideKeyboard()
     }
 
     override fun getSelectedProject(): String = spinnerProject.selectedItem.toString()
 
-    override fun getDescription(): String = getEditTextValue(R.id.edittext_description)
+    override fun getDescription(): String = etDescription.text.toString()
 
-    override fun getTagsInput(): String = getEditTextValue(R.id.edittext_tags)
+    override fun getTagsInput(): String = etTags.text.toString()
 
     override fun showSaveSuccess() {
         snack("Entry Saved!")
