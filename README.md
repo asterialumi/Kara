@@ -48,11 +48,12 @@ This school project (for our mobile development) was built with a focus on **Sca
 
 ## 📲 Installation
 
-1.  Download the latest **`Kara_v0.5.apk`** from the [Releases](https://github.com/your-username/kara/releases) section.
+1.  Download the latest **`Kara_v1.0-beta.apk`** from the [Releases](https://github.com/asterialumi/Kara/releases/tag/v1.0-beta) section.
 2.  Transfer the file to your Android device.
 3.  Tap the file to install (you may need to "Allow from this source" in your phone settings).
 4.  Start your time-tracking journey!
 
 
 ### 💡 Tip
-*You can instantly fill the app with sample data by using the **Import** feature in settings and pasting a pre-formatted Kara JSON string! Here's an [example text]() you can copy.*
+*You can instantly fill the app with sample data by using the **Import** feature in settings and pasting a pre-formatted Kara JSON string! Here's an [example text](https://github.com/user-attachments/files/28221010/sample.txt)
+ you can copy.*
